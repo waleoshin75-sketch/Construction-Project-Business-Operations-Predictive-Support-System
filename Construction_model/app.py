@@ -30,7 +30,10 @@ import streamlit as st
 # ======================================================================================
 st.set_page_config(page_title="Construction Predictive Support System", layout="wide")
 
-MODEL_DIR = Path(__file__).parent / "construction_model"
+# Find the folder that holds the model files, wherever it sits in the repo
+_here = Path(__file__).parent
+_found = next(_here.rglob("cost_overrun_model.joblib"), None)
+MODEL_DIR = _found.parent if _found else _here / "model"
 
 CLASSIFIERS = ["cost_overrun", "schedule_delay", "site_safety", "late_delivery"]
 PAGES = ["Home", "1. Cost overruns", "2. Schedule delays", "3. Site safety",
