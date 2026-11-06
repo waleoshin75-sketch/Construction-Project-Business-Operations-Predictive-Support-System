@@ -24,7 +24,7 @@ Five models, one app. Each one tells a manager where to look first.
 
 **What it is worth:** reviewing only the riskiest 40% of items finds **58%** of overrun dollars, **63%** of delay days and **83%** of lost safety days, against 40% for a random review. Reviewing 5% of orders for price finds **88%** of the money paid above the norm.
 
-> **How to read this:** every phase below has its full, runnable Python code under a `Code:` header, in the order it was run.
+> **How to read this:** each phase shows its full, runnable Python code, followed by the **Output** it produced (printed results, tables and charts), in the order it was run.
 
 ---
 
@@ -123,6 +123,56 @@ df_tasks = pd.read_csv(f"{DATA_DIR}/fact_tasks.csv")
 df_tasks.head(5)
 ```
 
+#### Output
+
+| project_id   | project_name     | country        | project_type   | contract_type   | client_sector   | budget_usd   | start_date   | planned_duration_days   | site_area_sqm   | num_floors   | project_manager_experience_years   |
+|:-------------|:-----------------|:---------------|:---------------|:----------------|:----------------|:-------------|:-------------|:------------------------|:----------------|:-------------|:-----------------------------------|
+| PRJ-1000     | Skyline Bridge 0 | germany        | RESIDENTIAL    | Design-Build    | Private         | 23109000.0   | 2024-12-13   | 801                     | 37173           | 7            | 20                                 |
+| PRJ-1001     | Summit Complex 1 | South Africa   | Infrastructure | Cost Plus       | Public          | $22,825,000  | 2022-11-06   | 903                     | 48882           |              | 28                                 |
+| PRJ-1002     | SKYLINE PLAZA 2  | UAE            | Commercial     | Fixed Price     | Public          | 12456000.0   | 04-23-2022   | 896                     | 6263            | 59           | 4                                  |
+| PRJ-1003     | Coral Complex 3  | NIGERIA        | Commercial     | Cost Plus       | Private         | 13.5M        | 2024-01-10   | 828                     | 30159           | 29           | 18                                 |
+| PRJ-1004     | Summit Plant 4   | United Kingdom | COMMERCIAL     | Design-Build    | Private         | 31510000.0   | 2022-03-07   | 745                     | 45587           | 49           | 9                                  |
+
+| vendor_id   | vendor_name         | vendor_type   | specialty      | country        | reliability_rating   | safety_rating   | years_active   | prequalified   |
+|:------------|:--------------------|:--------------|:---------------|:---------------|:---------------------|:----------------|:---------------|:---------------|
+| VND-100     | Atlas Materials Ltd | Subcontractor | Steel Erection | United Kingdom | 3                    | 3               | 22             | no             |
+| VND-101     | Vertex Engineering  | Subcontractor | Civil          | Brazil         | 3                    | 4               | 24             | Yes            |
+| VND-102     | Orion Industries    | Subcontractor | Civil          | uae            | 4                    | 4               | 30             | No             |
+| VND-103     | Crest Works         | Subcontractor | Civil          | RSA            | 4                    | 4               | 21             | yes            |
+| VND-104     | Crest Materials Ltd | Subcontractor | Steel Erection | india          |                      | 4               | 9              | TRUE           |
+
+| ledger_id   | project_id   | period   | cost_category   | budgeted_usd   | actual_usd     | approved_change_orders_usd   |
+|:------------|:-------------|:---------|:----------------|:---------------|:---------------|:-----------------------------|
+| LED-60000   | PRJ-1000     | 2024-Q4  | Materials       | 967565.71      | 1015634.31     | 29026.97                     |
+| LED-60001   | PRJ-1000     | 2024 Q4  | Labour          | 634323.05      | 678910.53      | 19029.69                     |
+| LED-60002   | PRJ-1000     | 2024-Q4  | EQUIPMENT       | 330922.16      | 387659.2       | 0.0                          |
+| LED-60003   | PRJ-1000     | 2024 Q4  | subcontractors  | 680969.68      | USD 767,379.70 | USD 0.00                     |
+| LED-60004   | PRJ-1000     | 2024-Q4  | Overheads       | $214,773.49    | 241935.23      | 6443.2                       |
+
+| order_id   | project_id   | vendor_id   | material            | quantity   | unit   | unit_price_usd   | total_cost_usd   | order_date   | promised_date   | delivered_date   | quality_passed   |
+|:-----------|:-------------|:------------|:--------------------|:-----------|:-------|:-----------------|:-----------------|:-------------|:----------------|:-----------------|:-----------------|
+| ORD-40000  | PRJ-1070     | VND-131     | Glass Panels        | 70         | sheets | 153.99           | $10,779.30       | 2023-07-30   | 2023-09-07      | 2023-09-06       | Yes              |
+| ORD-40001  | PRJ-1048     | VND-140     | Electrical Fittings | 385        | pieces | 25.02            | 9632.7           | 2026-01-02   | 2026-02-03      | 2026-02-01       | 1                |
+| ORD-40002  | PRJ-1038     | VND-135     | Glass Panels        | 147        | sheets | 108.89           | USD 16,006.83    | 2025-04-26   | 2025-05-08      | 2025-05-12       | yes              |
+| ORD-40003  | PRJ-1055     | VND-140     | Electrical Fittings | 127        | pieces | 26.28            | 3337.56          | 2022-05-27   | 06-29-2022      | 2022-06-27       | 1                |
+| ORD-40004  | PRJ-1056     | VND-135     | Glass Panels        | 38         | sheets | USD 109.76       | 4170.88          | 14 Oct 2025  | ??              | 2025-11-22       | TRUE             |
+
+| incident_id   | project_id   | vendor_id   | incident_date   | incident_type      | shift   | ppe_compliant   | work_at_height   | worker_experience_years   | weather_condition   | severity         | lost_days   | reported_delay_hours   |
+|:--------------|:-------------|:------------|:----------------|:-------------------|:--------|:----------------|:-----------------|:--------------------------|:--------------------|:-----------------|:------------|:-----------------------|
+| INC-80000     | PRJ-1000     | VND-104     | 2024-04-06      | Slip or Trip       | Night   | no              | No               | 12                        | Clear               | Fatality         | 180         | 13                     |
+| INC-80001     | PRJ-1013     | VND-116     | 2023-09-05      | Electrical Contact | Day     | No              | No               | 20                        | Clear               | Lost Time Injury | 8           | 46                     |
+| INC-80002     | PRJ-1017     | VND-113     | 2024-01-08      | Trench Collapse    | Day     | 1               | No               | 8                         | Wind                | Minor            | 0           | 20                     |
+| INC-80003     | PRJ-1060     |             | 2025-08-18      | Fall from Height   | Day     | No              | yes              | 0                         | HEAT                | Lost Time Injury | 13          | 22                     |
+| INC-80004     | PRJ-1010     | VND-104     | 16 Oct 2023     | ELECTRICAL CONTACT | Day     | Yes             | 0                | 6                         | Clear               | MINOR            | 0           | 32                     |
+
+| task_id   | project_id   | vendor_id   | task_type   | planned_start   | planned_end   | actual_start   | actual_end   | crew_size   | task_status   | rework_required   |
+|:----------|:-------------|:------------|:------------|:----------------|:--------------|:---------------|:-------------|:------------|:--------------|:------------------|
+| TSK-20200 | PRJ-1015     | VND-112     | Finishing   | 2024-03-05      | 2024-05-11    | 2024-03-04     | 2024-05-10   | 41          | Completed     | no                |
+| TSK-20584 | PRJ-1045     | VND-118     | Inspection  | 2024-06-28      | 2024-07-03    | 29 Jun 2024    | 2024/07/06   | 47          | Completed     | No                |
+| TSK-21204 | PRJ-1032     | VND-108     | Inspection  | 2024-04-29      | 2024-05-05    | 2024-04-30     | 2024-05-08   | 44          | Completed     | 0                 |
+| TSK-22643 | PRJ-1033     | VND-110     | Finishing   | April 15, 2024  | 2024-06-14    | April 17, 2024 | 2024-06-22   | 36          | Completed     | Yes               |
+| TSK-20920 | PRJ-1077     | VND-105     | roofing     | 2023-03-09      | 2023-04-04    | 2023-03-08     | 04-03-2023   | 23          | Completed     | FALSE             |
+
 ---
 
 ## 3. Data Dictionary
@@ -205,6 +255,61 @@ objectives = pd.read_csv(f"{DATA_DIR}/business_objectives.csv")
 display(data_dictionary)
 display(objectives)
 ```
+
+#### Output
+
+| table                | column                           | data_type   | description                                                                                | known_data_issues                                   |
+|:---------------------|:---------------------------------|:------------|:-------------------------------------------------------------------------------------------|:----------------------------------------------------|
+| dim_projects         | project_id                       | Text (key)  | Unique project code, PRJ-####                                                              | Duplicate rows                                      |
+| dim_projects         | project_name                     | Text        | Project name                                                                               | Extra spaces, mixed case                            |
+| dim_projects         | country                          | Text        | Country where the project is built                                                         | Spelling variants (UK, U.K., KSA, RSA...)           |
+| dim_projects         | project_type                     | Text        | Residential, Commercial, Industrial or Infrastructure                                      | Mixed case, spaces                                  |
+| dim_projects         | contract_type                    | Text        | Fixed Price, Cost Plus or Design-Build                                                     | Upper case, hyphen variants                         |
+| dim_projects         | client_sector                    | Text        | Public or Private client                                                                   |                                                     |
+| dim_projects         | budget_usd                       | Currency    | Approved contract budget in USD                                                            | Text such as 12.5M, $12,500,000, USD 12,500,000     |
+| dim_projects         | start_date                       | Date        | Planned project start date                                                                 | Six date styles, junk dates                         |
+| dim_projects         | planned_duration_days            | Integer     | Planned project length in days                                                             | Text like '18 months', 'N/A', '-5'                  |
+| dim_projects         | site_area_sqm                    | Integer     | Site area in square metres                                                                 | Negative and absurd values                          |
+| dim_projects         | num_floors                       | Integer     | Number of floors (blank for infrastructure)                                                | Extra blanks                                        |
+| dim_projects         | project_manager_experience_years | Integer     | Years of experience of the project manager                                                 |                                                     |
+| dim_vendors          | vendor_id                        | Text (key)  | Unique vendor code, VND-###                                                                | Duplicate rows                                      |
+| dim_vendors          | vendor_name                      | Text        | Vendor trading name                                                                        | Extra spaces, mixed case                            |
+| dim_vendors          | vendor_type                      | Text        | Subcontractor or Supplier                                                                  | Mixed case, spaces                                  |
+| dim_vendors          | specialty                        | Text        | Trade (subcontractors) or material (suppliers)                                             |                                                     |
+| dim_vendors          | country                          | Text        | Vendor base country                                                                        | Spelling variants                                   |
+| dim_vendors          | reliability_rating               | Integer 1-5 | Company rating for on-time performance                                                     | Text like '4/5', 'five', 'N/A'                      |
+| dim_vendors          | safety_rating                    | Integer 1-5 | Company rating for safety performance                                                      | Missing values                                      |
+| dim_vendors          | years_active                     | Integer     | Years the vendor has worked with the company                                               |                                                     |
+| dim_vendors          | prequalified                     | Boolean     | Passed prequalification                                                                    | Yes/Y/TRUE/1 and No/N/FALSE/0                       |
+| fact_tasks           | task_id                          | Text (key)  | Unique task code, TSK-#####                                                                | Duplicate rows                                      |
+| fact_tasks           | project_id                       | Text (FK)   | Links to dim_projects                                                                      | Orphan codes, lower case                            |
+| fact_tasks           | vendor_id                        | Text (FK)   | Subcontractor doing the task                                                               | Missing values                                      |
+| fact_tasks           | task_type                        | Text        | Excavation, Foundation, Structural Frame, MEP Installation, Finishing, Roofing, Inspection | Mixed case, spaces                                  |
+| fact_tasks           | planned_start                    | Date        | Scheduled start                                                                            | Six date styles, junk dates                         |
+| fact_tasks           | planned_end                      | Date        | Scheduled finish                                                                           | Six date styles, junk dates                         |
+| fact_tasks           | actual_start                     | Date        | Actual start                                                                               | Mixed formats; swapped with actual_end in some rows |
+| fact_tasks           | actual_end                       | Date        | Actual finish (blank unless Completed)                                                     | Mixed formats, blanks                               |
+| fact_tasks           | crew_size                        | Integer     | Workers on the task                                                                        | 0, 999, negatives, blanks                           |
+| fact_tasks           | task_status                      | Text        | Completed, In Progress or Cancelled                                                        | Case, 'Complete', 'In-Progress'                     |
+| fact_tasks           | rework_required                  | Boolean     | Work had to be redone                                                                      | Yes/Y/TRUE/1 variants                               |
+| fact_material_orders | order_id                         | Text (key)  | Unique order code, ORD-#####                                                               | Duplicate rows                                      |
+| fact_material_orders | project_id                       | Text (FK)   | Links to dim_projects                                                                      |                                                     |
+| fact_material_orders | vendor_id                        | Text (FK)   | Supplier, links to dim_vendors                                                             | Missing values, orphan codes                        |
+| fact_material_orders | material                         | Text        | Cement, Steel Rebar, Timber, Glass Panels, Electrical Fittings                             | Mixed case, spaces                                  |
+| fact_material_orders | quantity                         | Number      | Quantity ordered, in `unit`                                                                | Negative, blank, N/A                                |
+| fact_material_orders | unit                             | Text        | bags, tonnes, m3, sheets or pieces                                                         | Variants: t, MT, tons, cubic meters, CUM, pcs, nos  |
+| fact_material_orders | unit_price_usd                   | Currency    | Price per unit in USD                                                                      | Text with symbols; planted price spikes             |
+| fact_material_orders | total_cost_usd                   | Currency    | Order value in USD (quantity x unit price)                                                 | Text with symbols                                   |
+
+*Showing the first 40 of 64 rows.*
+
+| objective_no   | business_objective                             | ml_task                                           | target_definition                                                             | main_features                                                                                                                                  | tables_used                                     | signal_in_data               |
+|:---------------|:-----------------------------------------------|:--------------------------------------------------|:------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------|:-----------------------------|
+| 1              | Control project cost overruns                  | Regression and classification                     | overrun_pct = actual_usd / budgeted_usd - 1; overrun_flag = overrun_pct > 15% | cost_category, project_type, contract_type, country, period year, project size                                                                 | fact_cost_ledger, dim_projects                  | Strong                       |
+| 2              | Reduce schedule delays                         | Classification and regression                     | delay_days = actual_end - planned_end; delay_flag = delay_days > 5            | task_type, vendor reliability, crew_size, project type, rainy season, planned duration                                                         | fact_tasks, dim_vendors, dim_projects           | Strong                       |
+| 3              | Improve site safety                            | Classification                                    | serious_flag = severity in (Lost Time Injury, Fatality)                       | incident_type, ppe_compliant, shift, work_at_height, worker experience, weather, vendor safety_rating                                          | fact_safety_incidents, dim_vendors              | Strong                       |
+| 4              | Make material procurement more reliable        | Classification                                    | late_delivery = delivered_date > promised_date                                | material, quantity, international supplier (supplier country differs from project country), rainy season, vendor reliability_rating, lead time | fact_material_orders, dim_vendors, dim_projects | Strong                       |
+| 5              | Detect procurement price and invoice anomalies | Unsupervised anomaly detection (Isolation Forest) | none; score against anomaly_answer_key.csv only at the end                    | unit_price_usd relative to material and country, total_cost_usd vs quantity x unit price                                                       | fact_material_orders                            | Planted (about 2% of orders) |
 
 ---
 
@@ -442,6 +547,102 @@ display(relationships)
 display(variants)
 display(key_summary)
 ```
+
+#### Output
+
+|                       | rows   | columns   | duplicate_rows   | missing_key   | duplicate_key_rows   | missing_cells   |
+|:----------------------|:-------|:----------|:-----------------|:--------------|:---------------------|:----------------|
+| dim_projects          | 84     | 12        | 4                | 0             | 8                    | 21              |
+| dim_vendors           | 48     | 9         | 3                | 0             | 6                    | 3               |
+| fact_cost_ledger      | 2465   | 7         | 30               | 0             | 60                   | 195             |
+| fact_tasks            | 4045   | 11        | 45               | 0             | 90                   | 673             |
+| fact_material_orders  | 3035   | 12        | 35               | 0             | 70                   | 86              |
+| fact_safety_incidents | 768    | 13        | 18               | 0             | 36                   | 44              |
+
+| table                 | column                     | missing   | missing_pct   |
+|:----------------------|:---------------------------|:----------|:--------------|
+| dim_projects          | planned_duration_days      | 1         | 1.2           |
+| dim_projects          | num_floors                 | 20        | 23.8          |
+| dim_vendors           | reliability_rating         | 1         | 2.1           |
+| dim_vendors           | safety_rating              | 2         | 4.2           |
+| fact_cost_ledger      | approved_change_orders_usd | 195       | 7.9           |
+| fact_tasks            | vendor_id                  | 41        | 1             |
+| fact_tasks            | actual_start               | 3         | 0.1           |
+| fact_tasks            | actual_end                 | 548       | 13.5          |
+| fact_tasks            | crew_size                  | 81        | 2             |
+| fact_material_orders  | vendor_id                  | 25        | 0.8           |
+| fact_material_orders  | quantity                   | 31        | 1             |
+| fact_material_orders  | delivered_date             | 30        | 1             |
+| fact_safety_incidents | vendor_id                  | 37        | 4.8           |
+| fact_safety_incidents | worker_experience_years    | 7         | 0.9           |
+
+| table                 | check                                                  | rows   |
+|:----------------------|:-------------------------------------------------------|:-------|
+| dim_projects          | Budget stored as text (symbols or M/K)                 | 27     |
+| dim_projects          | Planned duration nonnumeric                            | 1      |
+| dim_projects          | Planned duration zero or negative                      | 1      |
+| dim_projects          | Site area zero or negative                             | 1      |
+| dim_projects          | Site area above 1,000,000 sqm                          | 1      |
+| dim_vendors           | Reliability rating nonnumeric                          | 2      |
+| fact_cost_ledger      | Actual amount negative                                 | 10     |
+| fact_cost_ledger      | Period not in YYYY-QN style                            | 913    |
+| fact_tasks            | Crew size zero, negative or 999                        | 12     |
+| fact_tasks            | Planned start unparsed                                 | 37     |
+| fact_tasks            | Planned end unparsed                                   | 45     |
+| fact_tasks            | Actual start unparsed                                  | 36     |
+| fact_tasks            | Actual end unparsed                                    | 204    |
+| fact_tasks            | Actual end before actual start (swapped)               | 97     |
+| fact_tasks            | Planned end before planned start                       | 62     |
+| fact_tasks            | Actual end missing (task not finished)                 | 548    |
+| fact_material_orders  | Quantity zero or negative                              | 14     |
+| fact_material_orders  | Order date unparsed                                    | 26     |
+| fact_material_orders  | Promised date unparsed                                 | 28     |
+| fact_material_orders  | Delivered date unparsed (text such as 'not delivered') | 26     |
+| fact_material_orders  | Delivered before ordered                               | 49     |
+| fact_safety_incidents | Worker experience negative                             | 3      |
+| fact_safety_incidents | Worker experience above 60 years                       | 6      |
+| fact_safety_incidents | Incident date unparsed                                 | 5      |
+
+| relationship                                     | nonmissing_keys   | orphan_keys   |
+|:-------------------------------------------------|:------------------|:--------------|
+| fact_cost_ledger.project_id -> dim_projects      | 2465              | 12            |
+| fact_tasks.project_id -> dim_projects            | 4045              | 15            |
+| fact_material_orders.project_id -> dim_projects  | 3035              | 0             |
+| fact_safety_incidents.project_id -> dim_projects | 768               | 0             |
+| fact_tasks.vendor_id -> dim_vendors              | 4004              | 0             |
+| fact_material_orders.vendor_id -> dim_vendors    | 3010              | 12            |
+| fact_safety_incidents.vendor_id -> dim_vendors   | 731               | 0             |
+
+| table                 | column            | raw_spellings   | after_trim_and_lowercase   |
+|:----------------------|:------------------|:----------------|:---------------------------|
+| dim_projects          | country           | 30              | 20                         |
+| dim_projects          | project_type      | 11              | 4                          |
+| dim_projects          | contract_type     | 5               | 3                          |
+| dim_projects          | client_sector     | 2               | 2                          |
+| dim_vendors           | vendor_type       | 6               | 2                          |
+| dim_vendors           | country           | 24              | 17                         |
+| dim_vendors           | prequalified      | 9               | 7                          |
+| fact_cost_ledger      | cost_category     | 25              | 5                          |
+| fact_tasks            | task_type         | 35              | 7                          |
+| fact_tasks            | task_status       | 11              | 4                          |
+| fact_tasks            | rework_required   | 10              | 8                          |
+| fact_material_orders  | material          | 25              | 5                          |
+| fact_material_orders  | unit              | 18              | 15                         |
+| fact_material_orders  | quality_passed    | 10              | 8                          |
+| fact_safety_incidents | incident_type     | 29              | 6                          |
+| fact_safety_incidents | shift             | 10              | 2                          |
+| fact_safety_incidents | ppe_compliant     | 10              | 8                          |
+| fact_safety_incidents | work_at_height    | 10              | 8                          |
+| fact_safety_incidents | weather_condition | 20              | 4                          |
+| fact_safety_incidents | severity          | 13              | 5                          |
+
+| check                            | value   |
+|:---------------------------------|:--------|
+| Answer key rows                  | 3,000   |
+| Unique order ids in orders table | 3,000   |
+| Orders missing from answer key   | 0       |
+| Planted anomalies in key         | 62      |
+| Anomaly rate (%)                 | 2.07    |
 
 ---
 
@@ -812,6 +1013,74 @@ display(checks)
 display(label_check)
 ```
 
+#### Output
+
+| table                 | action                                                            | rows   |
+|:----------------------|:------------------------------------------------------------------|:-------|
+| dim_projects          | Exact duplicate rows removed                                      | 4      |
+| dim_projects          | Impossible site area set to missing                               | 2      |
+| dim_projects          | planned_duration_days missing, filled with median of project type | 2      |
+| dim_projects          | site_area_sqm missing, filled with median of project type         | 2      |
+| dim_projects          | num_floors missing, filled with median of project type            | 20     |
+| dim_vendors           | Exact duplicate rows removed                                      | 3      |
+| dim_vendors           | reliability_rating missing, filled with median of vendor type     | 1      |
+| dim_vendors           | safety_rating missing, filled with median of vendor type          | 2      |
+| fact_cost_ledger      | Exact duplicate rows removed                                      | 30     |
+| fact_cost_ledger      | Rows with unknown project removed                                 | 12     |
+| fact_cost_ledger      | Rows removed: negative or missing budget/actual cost              | 10     |
+| fact_cost_ledger      | Missing change orders set to 0                                    | 194    |
+| fact_tasks            | Exact duplicate rows removed                                      | 45     |
+| fact_tasks            | Rows with unknown project removed                                 | 15     |
+| fact_tasks            | Swapped actual start/end dates put back in order                  | 39     |
+| fact_tasks            | crew_size impossible or missing, filled with median of task type  | 91     |
+| fact_material_orders  | Exact duplicate rows removed                                      | 35     |
+| fact_material_orders  | Unknown vendor codes set to missing (order kept)                  | 12     |
+| fact_material_orders  | Negative quantity sign corrected                                  | 14     |
+| fact_material_orders  | Missing quantity rebuilt from total cost / unit price             | 30     |
+| fact_material_orders  | Missing quantity filled with material median                      | 0      |
+| fact_material_orders  | Delivered date missing (not delivered or unreadable)              | 56     |
+| fact_safety_incidents | Exact duplicate rows removed                                      | 18     |
+| fact_safety_incidents | worker_experience_years impossible or missing, filled with median | 15     |
+
+|                       | rows_before   | rows_after   | duplicate_keys   | missing_cells   |
+|:----------------------|:--------------|:-------------|:-----------------|:----------------|
+| dim_projects          | 84            | 80           | 0                | 0               |
+| dim_vendors           | 48            | 45           | 0                | 0               |
+| fact_cost_ledger      | 2465          | 2413         | 0                | 0               |
+| fact_tasks            | 4045          | 3985         | 0                | 905             |
+| fact_material_orders  | 3035          | 3000         | 0                | 147             |
+| fact_safety_incidents | 768           | 750          | 0                | 41              |
+
+| table                 | column         | missing   |
+|:----------------------|:---------------|:----------|
+| fact_tasks            | vendor_id      | 40        |
+| fact_tasks            | planned_start  | 37        |
+| fact_tasks            | planned_end    | 45        |
+| fact_tasks            | actual_start   | 39        |
+| fact_tasks            | actual_end     | 744       |
+| fact_material_orders  | vendor_id      | 37        |
+| fact_material_orders  | order_date     | 26        |
+| fact_material_orders  | promised_date  | 28        |
+| fact_material_orders  | delivered_date | 56        |
+| fact_safety_incidents | vendor_id      | 37        |
+| fact_safety_incidents | incident_date  | 4         |
+
+| check                                   | rows   |
+|:----------------------------------------|:-------|
+| Tasks: actual end before actual start   | 0      |
+| Tasks: planned end before planned start | 0      |
+| Orders: delivered before ordered        | 0      |
+| Orders: promised before ordered         | 0      |
+| Ledger: orphan project codes            | 0      |
+| Tasks: orphan project codes             | 0      |
+| Orders: orphan project codes            | 0      |
+| Incidents: orphan project codes         | 0      |
+| Unmapped category labels (all tables)   | 0      |
+
+|                 | country (projects)   | task_type   | cost_category   | material   | incident_type   | severity   |
+|:----------------|:---------------------|:------------|:----------------|:-----------|:----------------|:-----------|
+| distinct labels | 10                   | 7           | 5               | 5          | 6               | 4          |
+
 ---
 
 ## 6. Feature Engineering
@@ -1055,13 +1324,89 @@ display(df_tasks_feat.groupby("rainy_season")["delay_flag"].mean().rename("delay
 display(df_safety_incidents_feat.groupby("no_ppe_at_height")["serious_flag"].mean().rename("serious_rate").to_frame())
 ```
 
+#### Output
+
+| table                | feature                 | meaning                                                                                  |
+|:---------------------|:------------------------|:-----------------------------------------------------------------------------------------|
+| dim_projects         | start_year              | Year the project started                                                                 |
+| dim_projects         | start_month             | Month the project started                                                                |
+| dim_projects         | planned_end_date        | Start date + planned duration                                                            |
+| dim_projects         | budget_per_sqm          | Budget per square metre of site                                                          |
+| dim_projects         | budget_per_day          | Budget per planned day                                                                   |
+| dim_projects         | budget_per_floor        | Budget per floor                                                                         |
+| dim_projects         | size_band               | Small / Medium / Large site (three equal groups)                                         |
+| dim_projects         | high_rise               | 1 if 30 or more floors                                                                   |
+| dim_projects         | is_public               | 1 if public sector client                                                                |
+| dim_projects         | manager_experience_band | Junior (<10), Mid (10-19), Senior (20+ years)                                            |
+| dim_vendors          | vendor_score            | Average of reliability and safety rating                                                 |
+| dim_vendors          | vendor_experience_band  | New (<10), Established (10-24), Veteran (25+ years active)                               |
+| dim_vendors          | is_prequalified         | 1 if the vendor is prequalified                                                          |
+| fact_cost_ledger     | period_year             | Year of the cost period                                                                  |
+| fact_cost_ledger     | period_quarter          | Quarter (1-4) of the cost period                                                         |
+| fact_cost_ledger     | overrun_usd             | Actual minus budget in USD                                                               |
+| fact_cost_ledger     | overrun_pct             | Actual / budget - 1 (objective 1 regression target)                                      |
+| fact_cost_ledger     | overrun_flag            | 1 if overrun is above 15% (objective 1 classification target)                            |
+| fact_cost_ledger     | change_order_pct        | Approved change orders as a share of budget                                              |
+| fact_cost_ledger     | budget_share_of_project | This line's share of the project's ledger budget                                         |
+| fact_cost_ledger     | log_budgeted_usd        | Log of the budgeted amount                                                               |
+| fact_tasks           | planned_duration_days   | Planned end minus planned start                                                          |
+| fact_tasks           | planned_start_year      | Year the task was planned to start                                                       |
+| fact_tasks           | planned_start_month     | Month the task was planned to start                                                      |
+| fact_tasks           | rainy_season            | 1 if the planned start month is in the project country's rainy season                    |
+| fact_tasks           | crew_band               | Small (<20), Medium (20-39), Large (40+) crew                                            |
+| fact_tasks           | vendor_known            | 1 if the vendor on the task is recorded                                                  |
+| fact_tasks           | delay_days              | Actual end minus planned end, completed tasks only (objective 2 regression target)       |
+| fact_tasks           | delay_flag              | 1 if delay is more than 5 days, completed tasks only (objective 2 classification target) |
+| fact_tasks           | actual_duration_days    | Actual end minus actual start, completed tasks only                                      |
+| fact_material_orders | order_year              | Year the order was placed                                                                |
+| fact_material_orders | order_month             | Month the order was placed                                                               |
+| fact_material_orders | lead_time_days          | Promised date minus order date                                                           |
+| fact_material_orders | actual_lead_days        | Delivered date minus order date                                                          |
+| fact_material_orders | delivery_delay_days     | Delivered date minus promised date                                                       |
+| fact_material_orders | late_delivery           | 1 if delivered after the promised date (objective 4 target)                              |
+| fact_material_orders | international_supplier  | 1 if supplier country differs from project country                                       |
+| fact_material_orders | rainy_season            | 1 if the promised month is in the project country's rainy season                         |
+| fact_material_orders | log_quantity            | Log of the quantity ordered                                                              |
+| fact_material_orders | price_ratio_material    | Unit price / median price of the same material                                           |
+
+*Showing the first 40 of 48 rows.*
+
+|                       | rows   | columns   | new_features   |
+|:----------------------|:-------|:----------|:---------------|
+| dim_projects          | 80     | 22        | 10             |
+| dim_vendors           | 45     | 12        | 3              |
+| fact_cost_ledger      | 2413   | 15        | 8              |
+| fact_tasks            | 3985   | 20        | 9              |
+| fact_material_orders  | 3000   | 24        | 12             |
+| fact_safety_incidents | 750    | 19        | 6              |
+
+| objective          | target        | usable_rows   | positive_rate   |
+|:-------------------|:--------------|:--------------|:----------------|
+| 1 Cost overrun     | overrun_flag  | 2413          | 46.7            |
+| 2 Schedule delay   | delay_flag    | 3237          | 40.9            |
+| 3 Serious incident | serious_flag  | 750           | 25.1            |
+| 4 Late delivery    | late_delivery | 2918          | 45.9            |
+
+|    | late_rate   |
+|:---|:------------|
+| 0  | 0.2857      |
+| 1  | 0.4799      |
+
+|    | delay_rate   |
+|:---|:-------------|
+| 0  | 0.3578       |
+| 1  | 0.7465       |
+
+|    | serious_rate   |
+|:---|:---------------|
+| 0  | 0.2287         |
+| 1  | 0.587          |
+
 ---
 
 ## 7. Create Relationship Table
 
 Every fact table links to the dimension tables (projects, vendors, dates) through a star schema. A join test confirms that a many-to-one join never adds or loses a row.
-
-![Star schema](images/star_schema.png)
 
 ### Code: relationship table (star schema)
 
@@ -1225,6 +1570,42 @@ display(relationship_table)
 display(join_test)
 display(dim_date.head(3))
 print(f"dim_date: {len(dim_date):,} days, {dim_date['date'].min().date()} to {dim_date['date'].max().date()}")
+```
+
+#### Output
+
+![Star schema](images/s04_01.png)
+
+| child_table           | child_key      | parent_table   | parent_key   | kind        | child_rows   | missing_key   | orphan_keys   | match_pct   | parent_key_unique   |
+|:----------------------|:---------------|:---------------|:-------------|:------------|:-------------|:--------------|:--------------|:------------|:--------------------|
+| fact_cost_ledger      | project_id     | dim_projects   | project_id   | many-to-one | 2413         | 0             | 0             | 100         | True                |
+| fact_tasks            | project_id     | dim_projects   | project_id   | many-to-one | 3985         | 0             | 0             | 100         | True                |
+| fact_material_orders  | project_id     | dim_projects   | project_id   | many-to-one | 3000         | 0             | 0             | 100         | True                |
+| fact_safety_incidents | project_id     | dim_projects   | project_id   | many-to-one | 750          | 0             | 0             | 100         | True                |
+| fact_tasks            | vendor_id      | dim_vendors    | vendor_id    | many-to-one | 3985         | 40            | 0             | 100         | True                |
+| fact_material_orders  | vendor_id      | dim_vendors    | vendor_id    | many-to-one | 3000         | 37            | 0             | 100         | True                |
+| fact_safety_incidents | vendor_id      | dim_vendors    | vendor_id    | many-to-one | 750          | 37            | 0             | 100         | True                |
+| fact_cost_ledger      | date_key       | dim_date       | date_key     | many-to-one | 2413         | 0             | 0             | 100         | True                |
+| fact_tasks            | date_key       | dim_date       | date_key     | many-to-one | 3985         | 37            | 0             | 100         | True                |
+| fact_material_orders  | date_key       | dim_date       | date_key     | many-to-one | 3000         | 26            | 0             | 100         | True                |
+| fact_safety_incidents | date_key       | dim_date       | date_key     | many-to-one | 750          | 4             | 0             | 100         | True                |
+| dim_projects          | start_date_key | dim_date       | date_key     | many-to-one | 80           | 0             | 0             | 100         | True                |
+
+|                       | rows_before   | rows_after   | rows_preserved   | project_attributes_found   |
+|:----------------------|:--------------|:-------------|:-----------------|:---------------------------|
+| fact_cost_ledger      | 2413          | 2413         | True             | 2413                       |
+| fact_tasks            | 3985          | 3985         | True             | 3985                       |
+| fact_material_orders  | 3000          | 3000         | True             | 3000                       |
+| fact_safety_incidents | 750           | 750          | True             | 750                        |
+
+| date       | date_key   | year   | quarter   | month   | month_name   | year_month   | week_of_year   | day_of_week   | is_weekend   |
+|:-----------|:-----------|:-------|:----------|:--------|:-------------|:-------------|:---------------|:--------------|:-------------|
+| 2022-01-01 | 20220101   | 2022   | 1         | 1       | January      | 2022-01      | 52             | Saturday      | 1            |
+| 2022-01-02 | 20220102   | 2022   | 1         | 1       | January      | 2022-01      | 52             | Sunday        | 1            |
+| 2022-01-03 | 20220103   | 2022   | 1         | 1       | January      | 2022-01      | 1              | Monday        | 0            |
+
+```text
+dim_date: 1,938 days, 2022-01-01 to 2027-04-22
 ```
 
 ---
@@ -1465,6 +1846,62 @@ display(ranking)
 print(f"Saved {len(saved_charts)} charts and factor_ranking.csv to {EDA_DIR}/")
 ```
 
+#### Output
+
+![Portfolio Overview](images/s05_01.png)
+
+![Cost Overruns By Category](images/s05_02.png)
+
+![Cost Overruns By Project](images/s05_03.png)
+
+![Cost Overruns Over Time](images/s05_04.png)
+
+![Task Delays Drivers](images/s05_05.png)
+
+![Task Delay Size And Timing](images/s05_06.png)
+
+![Safety Serious Incidents](images/s05_07.png)
+
+![Late Deliveries](images/s05_08.png)
+
+![Price Anomalies](images/s05_09.png)
+
+| objective          | factor                 | highest_group    | highest_rate_pct   | lowest_group        | lowest_rate_pct   | gap_points   |
+|:-------------------|:-----------------------|:-----------------|:-------------------|:--------------------|:------------------|:-------------|
+| 1 Cost overrun     | cost_category          | Materials        | 68.7               | Overheads           | 20.9              | 47.8         |
+| 1 Cost overrun     | country                | Nigeria          | 68.7               | United States       | 27.4              | 41.2         |
+| 1 Cost overrun     | contract_type          | Cost Plus        | 65.7               | Fixed Price         | 36.2              | 29.5         |
+| 1 Cost overrun     | high_rise              | 1                | 53.9               | 0                   | 35.4              | 18.6         |
+| 1 Cost overrun     | project_type           | Infrastructure   | 58.3               | Residential         | 40.9              | 17.5         |
+| 1 Cost overrun     | period_year            | 2023             | 53                 | 2024                | 40.6              | 12.4         |
+| 1 Cost overrun     | client_sector          | Private          | 49.2               | Public              | 41.8              | 7.5          |
+| 1 Cost overrun     | size_band              | Large            | 49.1               | Medium              | 45.2              | 3.9          |
+| 2 Schedule delay   | rainy_season           | 1.0              | 74.7               | 0.0                 | 35.8              | 38.9         |
+| 2 Schedule delay   | task_type              | Structural Frame | 55.7               | Inspection          | 20.2              | 35.6         |
+| 2 Schedule delay   | crew_band              | Small            | 59.2               | Large               | 24.7              | 34.5         |
+| 2 Schedule delay   | country                | United Kingdom   | 57                 | Saudi Arabia        | 31                | 26           |
+| 2 Schedule delay   | reliability_rating     | 3.0              | 53.2               | 5.0                 | 31.3              | 21.9         |
+| 2 Schedule delay   | project_type           | Infrastructure   | 45.4               | Residential         | 36.2              | 9.2          |
+| 2 Schedule delay   | rework_required        | Yes              | 43                 | No                  | 40.6              | 2.4          |
+| 2 Schedule delay   | vendor_known           | 0                | 41.2               | 1                   | 40.9              | 0.3          |
+| 3 Serious incident | incident_type          | Fall from Height | 51.7               | Slip or Trip        | 3.7               | 48           |
+| 3 Serious incident | no_ppe_at_height       | 1                | 58.7               | 0                   | 22.9              | 35.8         |
+| 3 Serious incident | experience_band        | Novice           | 41.8               | Veteran             | 10.6              | 31.2         |
+| 3 Serious incident | work_at_height         | Yes              | 43.2               | No                  | 17.5              | 25.6         |
+| 3 Serious incident | ppe_compliant          | No               | 41.5               | Yes                 | 21.1              | 20.4         |
+| 3 Serious incident | shift                  | Night            | 37.9               | Day                 | 20.7              | 17.2         |
+| 3 Serious incident | weather_condition      | Rain             | 28.4               | Clear               | 24                | 4.4          |
+| 4 Late delivery    | international_supplier | 1.0              | 48                 | 0.0                 | 28.6              | 19.4         |
+| 4 Late delivery    | reliability_rating     | 3.0              | 51.9               | 5.0                 | 37.5              | 14.4         |
+| 4 Late delivery    | material               | Glass Panels     | 53.9               | Electrical Fittings | 40.6              | 13.2         |
+| 4 Late delivery    | rainy_season           | 1.0              | 56.5               | 0.0                 | 44.3              | 12.2         |
+| 4 Late delivery    | country                | Australia        | 49.6               | UAE                 | 42.9              | 6.7          |
+| 4 Late delivery    | lead_band              | 2-4 weeks        | 46.4               | Over 6 weeks        | 41.5              | 4.9          |
+
+```text
+Saved 9 charts and factor_ranking.csv to construction_eda/
+```
+
 ---
 
 ## 9. Analytical Base Table
@@ -1623,6 +2060,111 @@ for key, abt in abts.items():
 print(f"\nSaved {len(abts)} analytical base tables to {ABT_DIR}/")
 ```
 
+#### Output
+
+|                                          | rows   | numeric_features   | text_features   | target              | positive_rate_pct   | missing_cells   |
+|:-----------------------------------------|:-------|:-------------------|:----------------|:--------------------|:--------------------|:----------------|
+| Objective 1: cost overrun                | 2413   | 12                 | 4               | overrun_flag        | 46.7                | 0               |
+| Objective 2: schedule delay              | 3237   | 14                 | 4               | delay_flag          | 40.9                | 290             |
+| Objective 3: serious safety incident     | 750    | 10                 | 5               | serious_flag        | 25.1                | 78              |
+| Objective 4: late material delivery      | 2918   | 11                 | 4               | late_delivery       | 45.9                | 294             |
+| Objective 5: price and invoice anomalies | 3000   | 4                  | 0               | none (unsupervised) |                     | 0               |
+
+| objective                            | column                 | missing   | missing_pct   |
+|:-------------------------------------|:-----------------------|:----------|:--------------|
+| Objective 2: schedule delay          | task_planned_days      | 67        | 2.1           |
+| Objective 2: schedule delay          | planned_start_month    | 29        | 0.9           |
+| Objective 2: schedule delay          | planned_start_year     | 29        | 0.9           |
+| Objective 2: schedule delay          | rainy_season           | 29        | 0.9           |
+| Objective 2: schedule delay          | reliability_rating     | 34        | 1.1           |
+| Objective 2: schedule delay          | vendor_safety_rating   | 34        | 1.1           |
+| Objective 2: schedule delay          | vendor_years_active    | 34        | 1.1           |
+| Objective 2: schedule delay          | is_prequalified        | 34        | 1.1           |
+| Objective 3: serious safety incident | incident_month         | 4         | 0.5           |
+| Objective 3: serious safety incident | vendor_safety_rating   | 37        | 4.9           |
+| Objective 3: serious safety incident | vendor_years_active    | 37        | 4.9           |
+| Objective 4: late material delivery  | lead_time_days         | 24        | 0.8           |
+| Objective 4: late material delivery  | order_month            | 24        | 0.8           |
+| Objective 4: late material delivery  | order_year             | 24        | 0.8           |
+| Objective 4: late material delivery  | international_supplier | 37        | 1.3           |
+| Objective 4: late material delivery  | reliability_rating     | 37        | 1.3           |
+| Objective 4: late material delivery  | vendor_safety_rating   | 37        | 1.3           |
+| Objective 4: late material delivery  | vendor_years_active    | 37        | 1.3           |
+| Objective 4: late material delivery  | is_prequalified        | 37        | 1.3           |
+| Objective 4: late material delivery  | vendor_type            | 37        | 1.3           |
+
+|                                          | left_out_on_purpose                                                                                  |
+|:-----------------------------------------|:-----------------------------------------------------------------------------------------------------|
+| Objective 1: cost overrun                | actual_usd, overrun_usd, overrun_pct, overrun_flag, approved_change_orders_usd, change_order_pct     |
+| Objective 2: schedule delay              | actual_start, actual_end, actual_duration_days, delay_days, delay_flag, task_status, rework_required |
+| Objective 3: serious safety incident     | severity, serious_flag, lost_days, reported_delay_hours                                              |
+| Objective 4: late material delivery      | delivered_date, actual_lead_days, delivery_delay_days, late_delivery, quality_passed                 |
+| Objective 5: price and invoice anomalies | is_anomaly, total_vs_calculated_pct                                                                  |
+
+```text
+Objective 1: cost overrun  (2413 rows x 17 columns)
+```
+
+| log_budgeted_usd   | budget_share_of_project   | period_year   | period_quarter   | project_budget_usd   | site_area_sqm   | num_floors   | project_planned_days   | manager_experience_years   | high_rise   | is_public   | budget_per_sqm   | cost_category   | country   | project_type   | contract_type   | overrun_flag   |
+|:-------------------|:--------------------------|:--------------|:-----------------|:---------------------|:----------------|:-------------|:-----------------------|:---------------------------|:------------|:------------|:-----------------|:----------------|:----------|:---------------|:----------------|:---------------|
+| 13.7825            | 0.0424                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | Materials       | Germany   | Residential    | Design-Build    | 0              |
+| 13.3603            | 0.0278                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | Labour          | Germany   | Residential    | Design-Build    | 0              |
+| 12.7096            | 0.0145                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | Equipment       | Germany   | Residential    | Design-Build    | 1              |
+| 13.4313            | 0.0298                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | Subcontractors  | Germany   | Residential    | Design-Build    | 0              |
+| 12.2773            | 0.0094                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | Overheads       | Germany   | Residential    | Design-Build    | 0              |
+
+```text
+Objective 2: schedule delay  (3237 rows x 19 columns)
+```
+
+| task_planned_days   | crew_size   | planned_start_month   | planned_start_year   | rainy_season   | reliability_rating   | vendor_safety_rating   | vendor_years_active   | is_prequalified   | vendor_known   | project_planned_days   | num_floors   | site_area_sqm   | manager_experience_years   | task_type        | country        | project_type   | contract_type   | delay_flag   |
+|:--------------------|:------------|:----------------------|:---------------------|:---------------|:---------------------|:-----------------------|:----------------------|:------------------|:---------------|:-----------------------|:-------------|:----------------|:---------------------------|:-----------------|:---------------|:---------------|:----------------|:-------------|
+| 72                  | 39          | 8                     | 2,023                | 0              | 3                    | 3                      | 22                    | 0                 | 1              | 896                    | 59           | 6263            | 4                          | Structural Frame | UAE            | Commercial     | Fixed Price     | 0            |
+| 72                  | 44          | 1                     | 2,025                | 0              | 5                    | 4                      | 35                    | 1                 | 1              | 801                    | 7            | 37173           | 20                         | Structural Frame | Germany        | Residential    | Design-Build    | 0            |
+| 70                  | 5           | 10                    | 2,023                | 1              | 4                    | 4                      | 27                    | 0                 | 1              | 583                    | 36           | 57824           | 22                         | Structural Frame | United Kingdom | Commercial     | Design-Build    | 1            |
+| 63                  | 59          | 6                     | 2,024                | 1              | 5                    | 4                      | 35                    | 1                 | 1              | 880                    | 3            | 52144           | 28                         | Finishing        | Nigeria        | Industrial     | Fixed Price     | 1            |
+| 32                  | 28          | 11                    | 2,022                | 0              | 3                    | 4                      | 24                    | 1                 | 1              | 335                    | 8            | 47463           | 3                          | Roofing          | South Africa   | Commercial     | Design-Build    | 0            |
+
+```text
+Objective 3: serious safety incident  (750 rows x 16 columns)
+```
+
+| worker_experience_years   | ppe_compliant_yes   | work_at_height_yes   | no_ppe_at_height   | incident_month   | vendor_safety_rating   | vendor_years_active   | vendor_known   | num_floors   | high_rise   | incident_type      | shift   | weather_condition   | project_type   | country        | serious_flag   |
+|:--------------------------|:--------------------|:---------------------|:-------------------|:-----------------|:-----------------------|:----------------------|:---------------|:-------------|:------------|:-------------------|:--------|:--------------------|:---------------|:---------------|:---------------|
+| 12                        | 0                   | 0                    | 0                  | 4                | 4                      | 9                     | 1              | 7            | 0           | Slip or Trip       | Night   | Clear               | Residential    | Germany        | 1              |
+| 20                        | 0                   | 0                    | 0                  | 9                | 3                      | 9                     | 1              | 30           | 1           | Electrical Contact | Day     | Clear               | Infrastructure | Brazil         | 1              |
+| 8                         | 1                   | 0                    | 0                  | 1                | 4                      | 8                     | 1              | 36           | 1           | Trench Collapse    | Day     | Wind                | Commercial     | United Kingdom | 0              |
+| 0                         | 0                   | 1                    | 1                  | 8                |                        |                       | 0              | 8            | 0           | Fall from Height   | Day     | Heat                | Commercial     | South Africa   | 1              |
+| 6                         | 1                   | 0                    | 0                  | 10               | 4                      | 9                     | 1              | 15           | 0           | Electrical Contact | Day     | Clear               | Industrial     | United States  | 0              |
+
+```text
+Objective 4: late material delivery  (2918 rows x 16 columns)
+```
+
+| log_quantity   | unit_price_usd   | lead_time_days   | order_month   | order_year   | rainy_season   | international_supplier   | reliability_rating   | vendor_safety_rating   | vendor_years_active   | is_prequalified   | material            | vendor_type   | country       | project_type   | late_delivery   |
+|:---------------|:-----------------|:-----------------|:--------------|:-------------|:---------------|:-------------------------|:---------------------|:-----------------------|:----------------------|:------------------|:--------------------|:--------------|:--------------|:---------------|:----------------|
+| 4.2627         | 153.99           | 39               | 7             | 2,023        | 0              | 1                        | 4                    | 4                      | 3                     | 1                 | Glass Panels        | Supplier      | United States | Commercial     | 0               |
+| 5.9558         | 25.02            | 32               | 1             | 2,026        | 0              | 1                        | 5                    | 4                      | 39                    | 1                 | Electrical Fittings | Supplier      | Australia     | Infrastructure | 0               |
+| 4.9972         | 108.89           | 12               | 4             | 2,025        | 0              | 1                        | 4                    | 4                      | 35                    | 1                 | Glass Panels        | Supplier      | Brazil        | Industrial     | 1               |
+| 4.852          | 26.28            | 33               | 5             | 2,022        | 0              | 1                        | 5                    | 4                      | 39                    | 1                 | Electrical Fittings | Supplier      | United States | Infrastructure | 0               |
+| 5.5175         | 17.3             | 12               | 9             | 2,025        | 0              | 1                        | 5                    | 5                      | 12                    | 1                 | Electrical Fittings | Supplier      | Brazil        | Residential    | 0               |
+
+```text
+Objective 5: price and invoice anomalies  (3000 rows x 4 columns)
+```
+
+| price_ratio_material   | price_ratio_peer   | log_unit_price   | log_quantity   |
+|:-----------------------|:-------------------|:-----------------|:---------------|
+| 1.239                  | 1.0707             | 5.0434           | 4.2627         |
+| 1.1451                 | 0.9546             | 3.2589           | 5.9558         |
+| 0.8761                 | 0.9968             | 4.6995           | 4.9972         |
+| 1.2027                 | 1.0648             | 3.3062           | 4.852          |
+| 0.8831                 | 0.9315             | 4.7074           | 3.6636         |
+
+```text
+Saved 5 analytical base tables to construction_abt/
+```
+
 ---
 
 ## 10. Encode Categorical Columns
@@ -1716,6 +2258,52 @@ display(encoded_tables["cost_overrun"].head(5))
 print(f"\nSaved {len(encoded_tables)} encoded tables, encoders.joblib and column_spec.json to {ENCODED_DIR}/")
 ```
 
+#### Output
+
+|                                          | rows   | columns_before   | columns_after   | text_columns_encoded   | new_columns   | numeric_missing_left_for_pipeline   |
+|:-----------------------------------------|:-------|:-----------------|:----------------|:-----------------------|:--------------|:------------------------------------|
+| Objective 1: cost overrun                | 2413   | 17               | 35              | 4                      | 22            | 0                                   |
+| Objective 2: schedule delay              | 3237   | 19               | 39              | 4                      | 24            | 290                                 |
+| Objective 3: serious safety incident     | 750    | 16               | 37              | 5                      | 26            | 78                                  |
+| Objective 4: late material delivery      | 2918   | 16               | 33              | 4                      | 21            | 257                                 |
+| Objective 5: price and invoice anomalies | 3000   | 4                | 4               | 0                      | 0             | 0                                   |
+
+| objective                            | column            | levels   | categories                                                                                                 |
+|:-------------------------------------|:------------------|:---------|:-----------------------------------------------------------------------------------------------------------|
+| Objective 1: cost overrun            | cost_category     | 5        | Equipment, Labour, Materials, Overheads, Subcontractors                                                    |
+| Objective 1: cost overrun            | country           | 10       | Australia, Brazil, Germany, India, Nigeria, Saudi Arabia, South Africa, UAE, United Kingdom, United States |
+| Objective 1: cost overrun            | project_type      | 4        | Commercial, Industrial, Infrastructure, Residential                                                        |
+| Objective 1: cost overrun            | contract_type     | 3        | Cost Plus, Design-Build, Fixed Price                                                                       |
+| Objective 2: schedule delay          | task_type         | 7        | Excavation, Finishing, Foundation, Inspection, MEP Installation, Roofing, Structural Frame                 |
+| Objective 2: schedule delay          | country           | 10       | Australia, Brazil, Germany, India, Nigeria, Saudi Arabia, South Africa, UAE, United Kingdom, United States |
+| Objective 2: schedule delay          | project_type      | 4        | Commercial, Industrial, Infrastructure, Residential                                                        |
+| Objective 2: schedule delay          | contract_type     | 3        | Cost Plus, Design-Build, Fixed Price                                                                       |
+| Objective 3: serious safety incident | incident_type     | 6        | Electrical Contact, Equipment Collision, Fall from Height, Slip or Trip, Struck by Object, Trench Collapse |
+| Objective 3: serious safety incident | shift             | 2        | Day, Night                                                                                                 |
+| Objective 3: serious safety incident | weather_condition | 4        | Clear, Heat, Rain, Wind                                                                                    |
+| Objective 3: serious safety incident | project_type      | 4        | Commercial, Industrial, Infrastructure, Residential                                                        |
+| Objective 3: serious safety incident | country           | 10       | Australia, Brazil, Germany, India, Nigeria, Saudi Arabia, South Africa, UAE, United Kingdom, United States |
+| Objective 4: late material delivery  | material          | 5        | Cement, Electrical Fittings, Glass Panels, Steel Rebar, Timber                                             |
+| Objective 4: late material delivery  | vendor_type       | 2        | Supplier, Unknown                                                                                          |
+| Objective 4: late material delivery  | country           | 10       | Australia, Brazil, Germany, India, Nigeria, Saudi Arabia, South Africa, UAE, United Kingdom, United States |
+| Objective 4: late material delivery  | project_type      | 4        | Commercial, Industrial, Infrastructure, Residential                                                        |
+
+```text
+An unseen category encodes as all zeros: True
+```
+
+| log_budgeted_usd   | budget_share_of_project   | period_year   | period_quarter   | project_budget_usd   | site_area_sqm   | num_floors   | project_planned_days   | manager_experience_years   | high_rise   | is_public   | budget_per_sqm   | cost_category_Equipment   | cost_category_Labour   | cost_category_Materials   | cost_category_Overheads   | cost_category_Subcontractors   | country_Australia   | country_Brazil   | country_Germany   | country_India   | country_Nigeria   | country_Saudi Arabia   | country_South Africa   | country_UAE   | country_United Kingdom   | country_United States   | project_type_Commercial   | project_type_Industrial   | project_type_Infrastructure   | project_type_Residential   | contract_type_Cost Plus   | contract_type_Design-Build   | contract_type_Fixed Price   | overrun_flag   |
+|:-------------------|:--------------------------|:--------------|:-----------------|:---------------------|:----------------|:-------------|:-----------------------|:---------------------------|:------------|:------------|:-----------------|:--------------------------|:-----------------------|:--------------------------|:--------------------------|:-------------------------------|:--------------------|:-----------------|:------------------|:----------------|:------------------|:-----------------------|:-----------------------|:--------------|:-------------------------|:------------------------|:--------------------------|:--------------------------|:------------------------------|:---------------------------|:--------------------------|:-----------------------------|:----------------------------|:---------------|
+| 13.7825            | 0.0424                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | 0                         | 0                      | 1                         | 0                         | 0                              | 0                   | 0                | 1                 | 0               | 0                 | 0                      | 0                      | 0             | 0                        | 0                       | 0                         | 0                         | 0                             | 1                          | 0                         | 1                            | 0                           | 0              |
+| 13.3603            | 0.0278                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | 0                         | 1                      | 0                         | 0                         | 0                              | 0                   | 0                | 1                 | 0               | 0                 | 0                      | 0                      | 0             | 0                        | 0                       | 0                         | 0                         | 0                             | 1                          | 0                         | 1                            | 0                           | 0              |
+| 12.7096            | 0.0145                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | 1                         | 0                      | 0                         | 0                         | 0                              | 0                   | 0                | 1                 | 0               | 0                 | 0                      | 0                      | 0             | 0                        | 0                       | 0                         | 0                         | 0                             | 1                          | 0                         | 1                            | 0                           | 1              |
+| 13.4313            | 0.0298                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | 0                         | 0                      | 0                         | 0                         | 1                              | 0                   | 0                | 1                 | 0               | 0                 | 0                      | 0                      | 0             | 0                        | 0                       | 0                         | 0                         | 0                             | 1                          | 0                         | 1                            | 0                           | 0              |
+| 12.2773            | 0.0094                    | 2024          | 4                | 23,109,000           | 37173           | 7            | 801                    | 20                         | 0           | 0           | 621.66           | 0                         | 0                      | 0                         | 1                         | 0                              | 0                   | 0                | 1                 | 0               | 0                 | 0                      | 0                      | 0             | 0                        | 0                       | 0                         | 0                         | 0                             | 1                          | 0                         | 1                            | 0                           | 0              |
+
+```text
+Saved 5 encoded tables, encoders.joblib and column_spec.json to construction_encoded/
+```
+
 ---
 
 ## 11. Separate X and Y
@@ -1788,6 +2376,39 @@ for key, cfg in OBJECTIVES.items():
         counts = y_all[key].value_counts().sort_index()
         print(f"y '{cfg['target']}': {counts.get(0, 0)} zeros, {counts.get(1, 0)} ones")
 print(f"\nSaved X, y, second targets and project groups to {XY_DIR}/")
+```
+
+#### Output
+
+|                                          | rows   | features_in_X   | target_y            | positive_rate_pct   | second_target       | missing_cells_in_X   | projects   |
+|:-----------------------------------------|:-------|:----------------|:--------------------|:--------------------|:--------------------|:---------------------|:-----------|
+| Objective 1: cost overrun                | 2413   | 34              | overrun_flag        | 46.7                | overrun_pct         | 0                    | 80         |
+| Objective 2: schedule delay              | 3237   | 38              | delay_flag          | 40.9                | delay_days          | 290                  | 80         |
+| Objective 3: serious safety incident     | 750    | 36              | serious_flag        | 25.1                | -                   | 78                   | 80         |
+| Objective 4: late material delivery      | 2918   | 32              | late_delivery       | 45.9                | delivery_delay_days | 257                  | 80         |
+| Objective 5: price and invoice anomalies | 3000   | 4               | none (unsupervised) |                     | -                   | 0                    | 80         |
+
+```text
+Objective 1: cost overrun: X is 2413 rows x 34 columns
+First features: log_budgeted_usd, budget_share_of_project, period_year, period_quarter, project_budget_usd, site_area_sqm ...
+y 'overrun_flag': 1287 zeros, 1126 ones
+
+Objective 2: schedule delay: X is 3237 rows x 38 columns
+First features: task_planned_days, crew_size, planned_start_month, planned_start_year, rainy_season, reliability_rating ...
+y 'delay_flag': 1913 zeros, 1324 ones
+
+Objective 3: serious safety incident: X is 750 rows x 36 columns
+First features: worker_experience_years, ppe_compliant_yes, work_at_height_yes, no_ppe_at_height, incident_month, vendor_safety_rating ...
+y 'serious_flag': 562 zeros, 188 ones
+
+Objective 4: late material delivery: X is 2918 rows x 32 columns
+First features: log_quantity, unit_price_usd, lead_time_days, order_month, order_year, rainy_season ...
+y 'late_delivery': 1579 zeros, 1339 ones
+
+Objective 5: price and invoice anomalies: X is 3000 rows x 4 columns
+First features: price_ratio_material, price_ratio_peer, log_unit_price, log_quantity ...
+
+Saved X, y, second targets and project groups to construction_xy/
 ```
 
 ---
@@ -1872,6 +2493,23 @@ display(split_summary)
 print("No project appears in both train and test, for every objective with a target.")
 print("Objective 5 keeps all orders together (no target to split on).")
 print(f"\nSaved the split tables to {SPLIT_DIR}/")
+```
+
+#### Output
+
+|                                          | train_rows   | test_rows   | train_projects   | test_projects   | train_positive_pct   | test_positive_pct   | seed   | test_share_pct   |
+|:-----------------------------------------|:-------------|:------------|:-----------------|:----------------|:---------------------|:--------------------|:-------|:-----------------|
+| Objective 1: cost overrun                | 1931         | 482         | 64               | 16              | 46.7                 | 46.5                | 222    | 20               |
+| Objective 2: schedule delay              | 2591         | 646         | 64               | 16              | 40.9                 | 40.9                | 54     | 20               |
+| Objective 3: serious safety incident     | 598          | 152         | 64               | 16              | 25.1                 | 25                  | 51     | 20.3             |
+| Objective 4: late material delivery      | 2336         | 582         | 64               | 16              | 45.9                 | 45.9                | 140    | 19.9             |
+| Objective 5: price and invoice anomalies | 3000         | 0           | 80               | 0               |                      |                     |        | 0                |
+
+```text
+No project appears in both train and test, for every objective with a target.
+Objective 5 keeps all orders together (no target to split on).
+
+Saved the split tables to construction_split/
 ```
 
 ---
@@ -1966,6 +2604,34 @@ print("Test columns are scaled with the TRAIN averages, so their means are close
 print(f"\nSaved scaled tables, scalers.joblib and feature_lists.json to {SCALED_DIR}/")
 ```
 
+#### Output
+
+|                                          | features   | scaled_numeric   | left_as_0_or_1   | gaps_filled_train   | gaps_filled_test   | train_mean   | train_std   |
+|:-----------------------------------------|:-----------|:-----------------|:-----------------|:--------------------|:-------------------|:-------------|:------------|
+| Objective 1: cost overrun                | 34         | 10               | 24               | 0                   | 0                  | 0            | 1           |
+| Objective 2: schedule delay              | 38         | 11               | 27               | 235                 | 55                 | 0            | 1           |
+| Objective 3: serious safety incident     | 36         | 5                | 31               | 70                  | 8                  | 0            | 1           |
+| Objective 4: late material delivery      | 32         | 8                | 24               | 205                 | 52                 | 0            | 1           |
+| Objective 5: price and invoice anomalies | 4          | 4                | 0                | 0                   | 0                  | 0            | 1           |
+
+```text
+Before and after scaling, first five scaled columns of Objective 1: cost overrun:
+```
+
+|                         | before_mean   | before_std   | after_mean   | after_std   | test_mean_after   |
+|:------------------------|:--------------|:-------------|:-------------|:------------|:------------------|
+| log_budgeted_usd        | 13.07         | 1.02         | 0            | 1           | 0.076             |
+| budget_share_of_project | 0.03          | 0.02         | 0            | 1           | 0.002             |
+| period_year             | 2,023.68      | 1.09         | 0            | 1           | 0.22              |
+| period_quarter          | 2.54          | 1.13         | 0            | 1           | -0.014            |
+| project_budget_usd      | 23,422,423.61 | 18,041,087.7 | 0            | 1           | 0.11              |
+
+```text
+Test columns are scaled with the TRAIN averages, so their means are close to 0 but not exactly 0.
+
+Saved scaled tables, scalers.joblib and feature_lists.json to construction_scaled/
+```
+
 ---
 
 ## 14. Train Model
@@ -2052,6 +2718,24 @@ print(f"\nBest model on cross-validation (average precision): {best_name}")
 print("The test set has not been touched yet. It is used in the next two steps.")
 ```
 
+#### Output
+
+```text
+Objective 1: cost overrun: 1931 training rows, 34 features, 46.7% overrun
+```
+
+|                                              | roc_auc   | roc_auc_std   | average_precision   | precision   | recall   | f1    | seconds   |
+|:---------------------------------------------|:----------|:--------------|:--------------------|:------------|:---------|:------|:----------|
+| Baseline (always predicts the common answer) | 0.5       | 0             | 0.468               | 0           | 0        | 0     | 0.039     |
+| Logistic Regression                          | 0.746     | 0.031         | 0.714               | 0.641       | 0.692    | 0.663 | 0.07      |
+| Random Forest                                | 0.697     | 0.01          | 0.652               | 0.615       | 0.628    | 0.615 | 2.439     |
+| Gradient Boosting                            | 0.67      | 0.019         | 0.621               | 0.601       | 0.603    | 0.591 | 0.954     |
+
+```text
+Best model on cross-validation (average precision): Logistic Regression
+The test set has not been touched yet. It is used in the next two steps.
+```
+
 ### Code: train model, Objective 2: Reduce schedule delays
 
 ```python
@@ -2120,6 +2804,25 @@ display(cv_results)
 print(f"\nBest model on cross-validation (average precision): {best_name}")
 print(f"Training tasks come from {groups_train.nunique()} projects; every fold holds out whole projects.")
 print("The test set has not been touched yet. It is used in the next two steps.")
+```
+
+#### Output
+
+```text
+Objective 2: schedule delay: 2591 training rows, 38 features, 40.9% delayed tasks
+```
+
+|                                              | roc_auc   | roc_auc_std   | average_precision   | precision   | recall   | f1    | seconds   |
+|:---------------------------------------------|:----------|:--------------|:--------------------|:------------|:---------|:------|:----------|
+| Baseline (always predicts the common answer) | 0.5       | 0             | 0.409               | 0           | 0        | 0     | 0.037     |
+| Logistic Regression                          | 0.776     | 0.023         | 0.712               | 0.667       | 0.572    | 0.615 | 0.075     |
+| Random Forest                                | 0.771     | 0.015         | 0.704               | 0.683       | 0.52     | 0.589 | 2.779     |
+| Gradient Boosting                            | 0.76      | 0.014         | 0.688               | 0.652       | 0.563    | 0.602 | 1.205     |
+
+```text
+Best model on cross-validation (average precision): Logistic Regression
+Training tasks come from 64 projects; every fold holds out whole projects.
+The test set has not been touched yet. It is used in the next two steps.
 ```
 
 ### Code: train model, Objective 3: Improve site safety
@@ -2192,6 +2895,25 @@ print(f"Training incidents come from {groups_train.nunique()} projects; every fo
 print("The test set has not been touched yet. It is used in the next two steps.")
 ```
 
+#### Output
+
+```text
+Objective 3: serious safety incident: 598 training rows, 36 features, 25.1% serious incidents
+```
+
+|                                              | roc_auc   | roc_auc_std   | average_precision   | precision   | recall   | f1    | seconds   |
+|:---------------------------------------------|:----------|:--------------|:--------------------|:------------|:---------|:------|:----------|
+| Baseline (always predicts the common answer) | 0.5       | 0             | 0.251               | 0           | 0        | 0     | 0.04      |
+| Logistic Regression                          | 0.863     | 0.026         | 0.667               | 0.661       | 0.553    | 0.585 | 0.061     |
+| Random Forest                                | 0.862     | 0.03          | 0.643               | 0.742       | 0.326    | 0.432 | 2.037     |
+| Gradient Boosting                            | 0.86      | 0.026         | 0.652               | 0.639       | 0.585    | 0.601 | 0.799     |
+
+```text
+Best model on cross-validation (average precision): Logistic Regression
+Training incidents come from 64 projects; every fold holds out whole projects.
+The test set has not been touched yet. It is used in the next two steps.
+```
+
 ### Code: train model, Objective 4: Make material procurement more reliable
 
 ```python
@@ -2260,6 +2982,25 @@ display(cv_results)
 print(f"\nBest model on cross-validation (average precision): {best_name}")
 print(f"Training orders come from {groups_train.nunique()} projects; every fold holds out whole projects.")
 print("The test set has not been touched yet. It is used in the next two steps.")
+```
+
+#### Output
+
+```text
+Objective 4: late material delivery: 2336 training rows, 32 features, 45.9% late deliveries
+```
+
+|                                              | roc_auc   | roc_auc_std   | average_precision   | precision   | recall   | f1    | seconds   |
+|:---------------------------------------------|:----------|:--------------|:--------------------|:------------|:---------|:------|:----------|
+| Baseline (always predicts the common answer) | 0.5       | 0             | 0.459               | 0           | 0        | 0     | 0.042     |
+| Logistic Regression                          | 0.631     | 0.025         | 0.588               | 0.576       | 0.484    | 0.521 | 0.081     |
+| Random Forest                                | 0.631     | 0.023         | 0.581               | 0.568       | 0.464    | 0.509 | 2.422     |
+| Gradient Boosting                            | 0.615     | 0.023         | 0.559               | 0.544       | 0.502    | 0.52  | 1.001     |
+
+```text
+Best model on cross-validation (average precision): Logistic Regression
+Training orders come from 64 projects; every fold holds out whole projects.
+The test set has not been touched yet. It is used in the next two steps.
 ```
 
 ### Code: train model, Objective 5: Detect procurement price and invoice anomalies
@@ -2351,6 +3092,52 @@ display(order_scores.sort_values("anomaly_score", ascending=False).head(10))
 print("\nThe answer key (is_anomaly) has not been opened. It is used only at the final scoring step.")
 ```
 
+#### Output
+
+```text
+Objective 5: price and invoice anomalies: 3000 orders, 4 features ['price_ratio_material', 'price_ratio_peer', 'log_unit_price', 'log_quantity']
+No labels are used. The model learns what a normal order looks like and scores how unusual each one is.
+```
+
+|                                           | flagged   | score_stability_across_seeds   | overlap_with_local_outlier_method   | flagged_median_abs_log_ratio   | normal_median_abs_log_ratio   | seconds   |
+|:------------------------------------------|:----------|:-------------------------------|:------------------------------------|:-------------------------------|:------------------------------|:----------|
+| Isolation Forest, 200 trees, 256 samples  | 150       | 0.981                          | 0.316                               | 0.335                          | 0.093                         | 1.492     |
+| Isolation Forest, 500 trees, 256 samples  | 150       | 0.992                          | 0.304                               | 0.332                          | 0.093                         | 3.357     |
+| Isolation Forest, 500 trees, 1024 samples | 150       | 0.992                          | 0.333                               | 0.341                          | 0.093                         | 3.616     |
+
+```text
+Chosen model (most stable scores across random seeds): Isolation Forest, 500 trees, 256 samples
+150 of 3000 orders flagged (5.0%) | anomaly score cut-off 0.538
+
+Flagged orders next to normal ones, in real units (medians):
+```
+
+|         | price_ratio_material   | price_ratio_peer   | log_unit_price   | log_quantity   |
+|:--------|:-----------------------|:-------------------|:-----------------|:---------------|
+| flagged | 1.28                   | 1.14               | 4.75             | 5.34           |
+| normal  | 1                      | 1                  | 3.25             | 5              |
+
+```text
+Top 10 most unusual orders:
+```
+
+|      | order_id   | project_id   | anomaly_score   | flagged   | score_rank_pct   |
+|:-----|:-----------|:-------------|:----------------|:----------|:-----------------|
+| 1939 | ORD-41939  | PRJ-1037     | 0.7995          | True      | 1                |
+| 209  | ORD-40209  | PRJ-1056     | 0.7983          | True      | 1                |
+| 1841 | ORD-41841  | PRJ-1007     | 0.787           | True      | 0.999            |
+| 124  | ORD-40124  | PRJ-1033     | 0.7826          | True      | 0.999            |
+| 99   | ORD-40099  | PRJ-1033     | 0.7817          | True      | 0.999            |
+| 2612 | ORD-42612  | PRJ-1042     | 0.7742          | True      | 0.998            |
+| 706  | ORD-40706  | PRJ-1061     | 0.7735          | True      | 0.998            |
+| 2132 | ORD-42132  | PRJ-1023     | 0.7734          | True      | 0.998            |
+| 2170 | ORD-42170  | PRJ-1058     | 0.7727          | True      | 0.997            |
+| 1025 | ORD-41025  | PRJ-1050     | 0.7718          | True      | 0.997            |
+
+```text
+The answer key (is_anomaly) has not been opened. It is used only at the final scoring step.
+```
+
 ---
 
 ## 15. Predict X_test
@@ -2401,6 +3188,38 @@ print("\nFirst 10 test cost lines (each model column = chance of a more than 15%
 display(predictions.head(10))
 ```
 
+#### Output
+
+```text
+482 test cost lines scored by 4 models | real overruns: 224 (46.5%) | 16 test projects the models have never seen
+
+A useful model gives real overruns a clearly higher average chance (a bigger gap is better):
+```
+
+|                                              | avg chance, real overruns   | avg chance, other lines   | gap   |
+|:---------------------------------------------|:----------------------------|:--------------------------|:------|
+| Baseline (always predicts the common answer) | 0.467                       | 0.467                     | 0     |
+| Logistic Regression                          | 0.68                        | 0.329                     | 0.351 |
+| Random Forest                                | 0.566                       | 0.394                     | 0.173 |
+| Gradient Boosting                            | 0.611                       | 0.344                     | 0.267 |
+
+```text
+First 10 test cost lines (each model column = chance of a more than 15% overrun):
+```
+
+|    | ledger_id   | project_id   | actual_overrun_flag   | actual_overrun_pct   | Baseline (always predicts the common answer)   | Logistic Regression   | Random Forest   | Gradient Boosting   |
+|:---|:------------|:-------------|:----------------------|:---------------------|:-----------------------------------------------|:----------------------|:----------------|:--------------------|
+| 0  | LED-60000   | PRJ-1000     | 0                     | 5                    | 0.467                                          | 0.532                 | 0.573           | 0.718               |
+| 1  | LED-60001   | PRJ-1000     | 0                     | 7                    | 0.467                                          | 0.319                 | 0.395           | 0.324               |
+| 2  | LED-60002   | PRJ-1000     | 1                     | 17.2                 | 0.467                                          | 0.216                 | 0.261           | 0.281               |
+| 3  | LED-60003   | PRJ-1000     | 0                     | 12.7                 | 0.467                                          | 0.38                  | 0.444           | 0.442               |
+| 4  | LED-60004   | PRJ-1000     | 0                     | 12.6                 | 0.467                                          | 0.087                 | 0.182           | 0.227               |
+| 5  | LED-60005   | PRJ-1000     | 0                     | 8.9                  | 0.467                                          | 0.41                  | 0.531           | 0.552               |
+| 6  | LED-60006   | PRJ-1000     | 0                     | 5.4                  | 0.467                                          | 0.218                 | 0.342           | 0.245               |
+| 7  | LED-60007   | PRJ-1000     | 0                     | -3.6                 | 0.467                                          | 0.148                 | 0.269           | 0.216               |
+| 8  | LED-60008   | PRJ-1000     | 0                     | -3.5                 | 0.467                                          | 0.274                 | 0.42            | 0.312               |
+| 9  | LED-60009   | PRJ-1000     | 0                     | -1.8                 | 0.467                                          | 0.057                 | 0.153           | 0.06                |
+
 ### Code: predict X_test, Objective 2: Reduce schedule delays
 
 ```python
@@ -2445,6 +3264,38 @@ print("\nFirst 10 test tasks (each model column = chance of a delay):")
 display(predictions.head(10))
 ```
 
+#### Output
+
+```text
+646 test tasks scored by 4 models | real delays: 264 (40.9%) | 16 test projects the models have never seen
+
+A useful model gives real delays a clearly higher average chance (a bigger gap is better):
+```
+
+|                                              | avg chance, real delays   | avg chance, on-time tasks   | gap   |
+|:---------------------------------------------|:--------------------------|:----------------------------|:------|
+| Baseline (always predicts the common answer) | 0.409                     | 0.409                       | 0     |
+| Logistic Regression                          | 0.601                     | 0.321                       | 0.28  |
+| Random Forest                                | 0.535                     | 0.336                       | 0.198 |
+| Gradient Boosting                            | 0.59                      | 0.305                       | 0.285 |
+
+```text
+First 10 test tasks (each model column = chance of a delay):
+```
+
+|    | task_id   | project_id   | actual_delay_flag   | actual_delay_days   | Baseline (always predicts the common answer)   | Logistic Regression   | Random Forest   | Gradient Boosting   |
+|:---|:----------|:-------------|:--------------------|:--------------------|:-----------------------------------------------|:----------------------|:----------------|:--------------------|
+| 1  | TSK-20002 | PRJ-1000     | 0                   | 4                   | 0.409                                          | 0.229                 | 0.301           | 0.057               |
+| 11 | TSK-20014 | PRJ-1045     | 0                   | 4                   | 0.409                                          | 0.355                 | 0.354           | 0.355               |
+| 24 | TSK-20030 | PRJ-1029     | 1                   | 10                  | 0.409                                          | 0.381                 | 0.386           | 0.518               |
+| 29 | TSK-20036 | PRJ-1072     | 1                   | 17                  | 0.409                                          | 0.409                 | 0.375           | 0.317               |
+| 41 | TSK-20049 | PRJ-1072     | 0                   | 1                   | 0.409                                          | 0.161                 | 0.278           | 0.174               |
+| 46 | TSK-20055 | PRJ-1063     | 0                   | 4                   | 0.409                                          | 0.193                 | 0.24            | 0.083               |
+| 49 | TSK-20058 | PRJ-1040     | 1                   | 15                  | 0.409                                          | 0.905                 | 0.697           | 0.777               |
+| 53 | TSK-20063 | PRJ-1028     | 0                   | 0                   | 0.409                                          | 0.519                 | 0.544           | 0.735               |
+| 54 | TSK-20064 | PRJ-1046     | 1                   | 6                   | 0.409                                          | 0.385                 | 0.398           | 0.446               |
+| 60 | TSK-20073 | PRJ-1072     | 1                   | 13                  | 0.409                                          | 0.506                 | 0.477           | 0.59                |
+
 ### Code: predict X_test, Objective 3: Improve site safety
 
 ```python
@@ -2487,6 +3338,38 @@ display(risk_check.round(3))
 print("\nFirst 10 test incidents (each model column = chance of being serious):")
 display(predictions.head(10))
 ```
+
+#### Output
+
+```text
+152 test incidents scored by 4 models | serious incidents: 38 (25.0%) | 16 test projects the models have never seen
+
+A useful model gives serious incidents a clearly higher average chance (a bigger gap is better):
+```
+
+|                                              | avg chance, serious incidents   | avg chance, other incidents   | gap   |
+|:---------------------------------------------|:--------------------------------|:------------------------------|:------|
+| Baseline (always predicts the common answer) | 0.251                           | 0.251                         | 0     |
+| Logistic Regression                          | 0.499                           | 0.164                         | 0.335 |
+| Random Forest                                | 0.412                           | 0.204                         | 0.207 |
+| Gradient Boosting                            | 0.455                           | 0.166                         | 0.289 |
+
+```text
+First 10 test incidents (each model column = chance of being serious):
+```
+
+|    | incident_id   | project_id   | actual_serious_flag   | Baseline (always predicts the common answer)   | Logistic Regression   | Random Forest   | Gradient Boosting   |
+|:---|:--------------|:-------------|:----------------------|:-----------------------------------------------|:----------------------|:----------------|:--------------------|
+| 0  | INC-80000     | PRJ-1000     | 1                     | 0.251                                          | 0.091                 | 0.154           | 0.006               |
+| 26 | INC-80026     | PRJ-1029     | 1                     | 0.251                                          | 0.474                 | 0.326           | 0.301               |
+| 28 | INC-80028     | PRJ-1012     | 1                     | 0.251                                          | 0.791                 | 0.576           | 0.637               |
+| 32 | INC-80032     | PRJ-1064     | 0                     | 0.251                                          | 0.384                 | 0.376           | 0.609               |
+| 37 | INC-80037     | PRJ-1044     | 0                     | 0.251                                          | 0.016                 | 0.04            | 0.002               |
+| 42 | INC-80042     | PRJ-1064     | 0                     | 0.251                                          | 0.007                 | 0.092           | 0.011               |
+| 43 | INC-80043     | PRJ-1015     | 0                     | 0.251                                          | 0.109                 | 0.132           | 0.053               |
+| 57 | INC-80057     | PRJ-1026     | 1                     | 0.251                                          | 0.205                 | 0.255           | 0.034               |
+| 74 | INC-80074     | PRJ-1026     | 0                     | 0.251                                          | 0.072                 | 0.076           | 0.041               |
+| 78 | INC-80078     | PRJ-1044     | 0                     | 0.251                                          | 0.689                 | 0.627           | 0.915               |
 
 ### Code: predict X_test, Objective 4: Make material procurement more reliable
 
@@ -2531,6 +3414,38 @@ display(risk_check.round(3))
 print("\nFirst 10 test orders (each model column = chance of being late):")
 display(predictions.head(10))
 ```
+
+#### Output
+
+```text
+582 test orders scored by 4 models | late orders: 267 (45.9%) | 16 test projects the models have never seen
+
+A useful model gives late orders a clearly higher average chance (a bigger gap is better):
+```
+
+|                                              | avg chance, late orders   | avg chance, on-time orders   | gap   |
+|:---------------------------------------------|:--------------------------|:-----------------------------|:------|
+| Baseline (always predicts the common answer) | 0.459                     | 0.459                        | 0     |
+| Logistic Regression                          | 0.486                     | 0.432                        | 0.054 |
+| Random Forest                                | 0.472                     | 0.421                        | 0.051 |
+| Gradient Boosting                            | 0.489                     | 0.417                        | 0.072 |
+
+```text
+First 10 test orders (each model column = chance of being late):
+```
+
+|    | order_id   | project_id   | actual_late_flag   | actual_delay_days   | Baseline (always predicts the common answer)   | Logistic Regression   | Random Forest   | Gradient Boosting   |
+|:---|:-----------|:-------------|:-------------------|:--------------------|:-----------------------------------------------|:----------------------|:----------------|:--------------------|
+| 8  | ORD-40010  | PRJ-1061     | 1                  | 3                   | 0.459                                          | 0.661                 | 0.607           | 0.863               |
+| 10 | ORD-40012  | PRJ-1077     | 0                  | 0                   | 0.459                                          | 0.403                 | 0.37            | 0.409               |
+| 11 | ORD-40013  | PRJ-1041     | 1                  | 10                  | 0.459                                          | 0.806                 | 0.764           | 0.832               |
+| 16 | ORD-40019  | PRJ-1077     | 0                  | -2                  | 0.459                                          | 0.391                 | 0.457           | 0.33                |
+| 22 | ORD-40025  | PRJ-1041     | 0                  | 0                   | 0.459                                          | 0.384                 | 0.362           | 0.523               |
+| 28 | ORD-40032  | PRJ-1014     | 0                  | -1                  | 0.459                                          | 0.447                 | 0.442           | 0.466               |
+| 31 | ORD-40035  | PRJ-1012     | 0                  | -2                  | 0.459                                          | 0.42                  | 0.358           | 0.248               |
+| 42 | ORD-40047  | PRJ-1019     | 1                  | 3                   | 0.459                                          | 0.643                 | 0.544           | 0.506               |
+| 45 | ORD-40050  | PRJ-1045     | 1                  | 3                   | 0.459                                          | 0.636                 | 0.568           | 0.537               |
+| 47 | ORD-40052  | PRJ-1007     | 0                  | -1                  | 0.459                                          | 0.583                 | 0.408           | 0.432               |
 
 ### Code: predict X_test, Objective 5: Detect procurement price and invoice anomalies
 
@@ -2606,21 +3521,75 @@ display(review_queue.head(10)[["order_id", "project_id", "anomaly_score", "price
 print(f"\nSaved all_orders_scored.csv and review_queue.csv to {OUT_DIR}/. The answer key has still not been opened.")
 ```
 
+#### Output
+
+```text
+3,000 orders scored | 150 flagged for review (5.0%) | 80 projects
+Flag cut-off (anomaly score): 0.538
+
+Orders by risk band:
+```
+
+|                       | orders   |
+|:----------------------|:---------|
+| Top 1%                | 30       |
+| Next 4% (flagged)     | 120      |
+| Next 15% (watch list) | 450      |
+| Normal                | 2400     |
+
+```text
+Why the flagged orders were flagged:
+```
+
+|                                   | flagged_orders   |
+|:----------------------------------|:-----------------|
+| priced above the material norm    | 88               |
+| priced below the material norm    | 39               |
+| unusual order quantity            | 19               |
+| priced below similar orders       | 3                |
+| unusual mix of price and quantity | 1                |
+
+```text
+Projects with the most flagged orders:
+```
+
+|          | flagged_orders   | share_of_flags   |
+|:---------|:-----------------|:-----------------|
+| PRJ-1051 | 7                | 0.047            |
+| PRJ-1042 | 7                | 0.047            |
+| PRJ-1057 | 7                | 0.047            |
+| PRJ-1013 | 5                | 0.033            |
+| PRJ-1009 | 5                | 0.033            |
+| PRJ-1026 | 5                | 0.033            |
+| PRJ-1007 | 5                | 0.033            |
+| PRJ-1054 | 4                | 0.027            |
+
+```text
+Top 10 orders to review first:
+```
+
+|      | order_id   | project_id   | anomaly_score   | price_ratio_material   | price_ratio_peer   | unit_price_usd   | main_reason                    |
+|:-----|:-----------|:-------------|:----------------|:-----------------------|:-------------------|:-----------------|:-------------------------------|
+| 1939 | ORD-41939  | PRJ-1037     | 0.7995          | 6.57                   | 5.64               | 4,675.01         | priced above the material norm |
+| 209  | ORD-40209  | PRJ-1056     | 0.7983          | 5.97                   | 6.16               | 4,248.26         | priced above the material norm |
+| 1841 | ORD-41841  | PRJ-1007     | 0.787           | 5.84                   | 5                  | 4,153.72         | priced above the material norm |
+| 124  | ORD-40124  | PRJ-1033     | 0.7826          | 6.85                   | 6.05               | 59.21            | priced above the material norm |
+| 99   | ORD-40099  | PRJ-1033     | 0.7817          | 6.74                   | 5.95               | 58.21            | priced above the material norm |
+| 2612 | ORD-42612  | PRJ-1042     | 0.7742          | 6.07                   | 5.59               | 52.48            | priced above the material norm |
+| 706  | ORD-40706  | PRJ-1061     | 0.7735          | 6.17                   | 5.78               | 134.92           | priced above the material norm |
+| 2132 | ORD-42132  | PRJ-1023     | 0.7734          | 5.14                   | 5.64               | 44.37            | priced above the material norm |
+| 2170 | ORD-42170  | PRJ-1058     | 0.7727          | 6.02                   | 5.88               | 131.62           | priced above the material norm |
+| 1025 | ORD-41025  | PRJ-1050     | 0.7718          | 6.01                   | 5.31               | 51.94            | priced above the material norm |
+
+```text
+Saved all_orders_scored.csv and review_queue.csv to construction_charts/objective_5_price_anomalies/. The answer key has still not been opened.
+```
+
 ---
 
 ## 16. Compare X and Y
 
 Predicted and actual outcomes side by side, to see where each model agrees with reality and where it misses.
-
-| Objective 1: Cost overruns | Objective 2: Schedule delays |
-|:-:|:-:|
-| ![Objective 1](images/objective_1_compare_x_and_y.png) | ![Objective 2](images/objective_2_compare_x_and_y.png) |
-| **Objective 3: Site safety** | **Objective 4: Late delivery** |
-| ![Objective 3](images/objective_3_compare_x_and_y.png) | ![Objective 4](images/objective_4_compare_x_and_y.png) |
-
-**Objective 5: Price anomalies**
-
-![Objective 5](images/objective_5_compare_x_and_y.png)
 
 ### Code: compare X and y, Objective 1: Control project cost overruns
 
@@ -2743,6 +3712,66 @@ print("\nImportance of every input, by model (average drop in ROC AUC):")
 display(importance_by_model.round(4))
 ```
 
+#### Output
+
+![Objective 1: predicted vs actual](images/s13_01.png)
+
+```text
+Overall overrun rate in training: 46.7%
+
+Inputs in the top 8 of at least 2 of 3 models:
+```
+
+|                          | Logistic Regression   | Random Forest   | Gradient Boosting   | average   |
+|:-------------------------|:----------------------|:----------------|:--------------------|:----------|
+| contract_type            | 0.0829                | 0.0772          | 0.088               | 0.0827    |
+| country                  | 0.0817                | 0.027           | 0.0721              | 0.0603    |
+| cost_category            | 0.0528                | 0.0346          | 0.0294              | 0.0389    |
+| num_floors               | 0.003                 | 0.0076          | 0.0262              | 0.0123    |
+| project_planned_days     | 0.0004                | 0.0113          | 0.0239              | 0.0119    |
+| high_rise                | 0.0087                | 0.0035          | 0                   | 0.0041    |
+| manager_experience_years | 0.0045                | 0.0023          | 0.0053              | 0.004     |
+
+```text
+What the data says about the ten most important inputs:
+```
+
+| input                    | compared                                    | rate_at_low_pct   | rate_at_high_pct   | gap_points   |
+|:-------------------------|:--------------------------------------------|:------------------|:-------------------|:-------------|
+| contract_type            | Fixed Price vs Cost Plus                    | 38                | 64.3               | 26.3         |
+| country                  | United States vs Nigeria                    | 24.8              | 67.4               | 42.6         |
+| cost_category            | Overheads vs Materials                      | 20.6              | 68.6               | 48           |
+| budget_share_of_project  | lowest quarter vs highest quarter of values | 28.4              | 59.5               | 31.1         |
+| num_floors               | lowest quarter vs highest quarter of values | 38.7              | 47.6               | 8.9          |
+| project_planned_days     | lowest quarter vs highest quarter of values | 39.1              | 47.3               | 8.2          |
+| period_quarter           | lowest quarter vs highest quarter of values | 43.8              | 53                 | 9.2          |
+| high_rise                | value 0 vs value 1                          | 35.4              | 53.6               | 18.2         |
+| manager_experience_years | lowest quarter vs highest quarter of values | 50.3              | 44.4               | -5.9         |
+| project_type             | Commercial vs Infrastructure                | 40.3              | 58.1               | 17.8         |
+
+```text
+Importance of every input, by model (average drop in ROC AUC):
+```
+
+|                          | Logistic Regression   | Random Forest   | Gradient Boosting   | average   |
+|:-------------------------|:----------------------|:----------------|:--------------------|:----------|
+| contract_type            | 0.0829                | 0.0772          | 0.088               | 0.0827    |
+| country                  | 0.0817                | 0.027           | 0.0721              | 0.0603    |
+| cost_category            | 0.0528                | 0.0346          | 0.0294              | 0.0389    |
+| budget_share_of_project  | 0.001                 | 0.0017          | 0.0415              | 0.0147    |
+| num_floors               | 0.003                 | 0.0076          | 0.0262              | 0.0123    |
+| project_planned_days     | 0.0004                | 0.0113          | 0.0239              | 0.0119    |
+| period_quarter           | 0.0022                | 0.0022          | 0.0144              | 0.0063    |
+| high_rise                | 0.0087                | 0.0035          | 0                   | 0.0041    |
+| manager_experience_years | 0.0045                | 0.0023          | 0.0053              | 0.004     |
+| project_type             | 0.0053                | -0.0001         | 0.0047              | 0.0033    |
+| period_year              | 0                     | 0.0036          | 0.0038              | 0.0025    |
+| log_budgeted_usd         | 0.0084                | -0.008          | 0.0053              | 0.0019    |
+| project_budget_usd       | -0.0011               | 0.0038          | 0.0019              | 0.0015    |
+| budget_per_sqm           | 0.0065                | -0.0027         | 0.0008              | 0.0015    |
+| is_public                | 0.0008                | 0.0019          | -0.0008             | 0.0006    |
+| site_area_sqm            | -0.0002               | -0.002          | 0.0028              | 0.0002    |
+
 ### Code: compare X and y, Objective 2: Reduce schedule delays
 
 ```python
@@ -2863,6 +3892,69 @@ display(data_view)
 print("\nImportance of every input, by model (average drop in ROC AUC):")
 display(importance_by_model.round(4))
 ```
+
+#### Output
+
+![Objective 2: predicted vs actual](images/s17_01.png)
+
+```text
+Overall delay rate in training: 40.9%
+
+Inputs in the top 8 of at least 2 of 3 models:
+```
+
+|                      | Logistic Regression   | Random Forest   | Gradient Boosting   | average   |
+|:---------------------|:----------------------|:----------------|:--------------------|:----------|
+| crew_size            | 0.1267                | 0.1183          | 0.1243              | 0.1231    |
+| rainy_season         | 0.087                 | 0.0835          | 0.0801              | 0.0835    |
+| task_type            | 0.0286                | 0.0235          | 0.0237              | 0.0253    |
+| task_planned_days    | 0.0103                | 0.0102          | 0.0198              | 0.0134    |
+| reliability_rating   | 0.014                 | 0.0103          | 0.0161              | 0.0134    |
+| vendor_safety_rating | 0.008                 | 0.0095          | 0.0177              | 0.0117    |
+| vendor_years_active  | -0.0012               | 0.0041          | 0.0149              | 0.0059    |
+| project_planned_days | 0.0024                | 0.0011          | 0.0059              | 0.0031    |
+
+```text
+What the data says about the ten most important inputs:
+```
+
+| input                | compared                                    | rate_at_low_pct   | rate_at_high_pct   | gap_points   |
+|:---------------------|:--------------------------------------------|:------------------|:-------------------|:-------------|
+| crew_size            | lowest quarter vs highest quarter of values | 59.3              | 24.2               | -35.1        |
+| rainy_season         | value 0 vs value 1                          | 35.9              | 75.9               | 40           |
+| task_type            | Inspection vs Structural Frame              | 20.4              | 54.7               | 34.3         |
+| task_planned_days    | lowest quarter vs highest quarter of values | 30.7              | 51.6               | 20.9         |
+| reliability_rating   | lowest quarter vs highest quarter of values | 44                | 37.7               | -6.3         |
+| vendor_safety_rating | lowest quarter vs highest quarter of values | 49.6              | 37.1               | -12.5        |
+| vendor_years_active  | lowest quarter vs highest quarter of values | 38.5              | 34.6               | -3.9         |
+| project_planned_days | lowest quarter vs highest quarter of values | 37.6              | 43.8               | 6.2          |
+| site_area_sqm        | lowest quarter vs highest quarter of values | 42.2              | 43.1               | 0.9          |
+| country              | Saudi Arabia vs Brazil                      | 31                | 55                 | 24           |
+
+```text
+Importance of every input, by model (average drop in ROC AUC):
+```
+
+|                          | Logistic Regression   | Random Forest   | Gradient Boosting   | average   |
+|:-------------------------|:----------------------|:----------------|:--------------------|:----------|
+| crew_size                | 0.1267                | 0.1183          | 0.1243              | 0.1231    |
+| rainy_season             | 0.087                 | 0.0835          | 0.0801              | 0.0835    |
+| task_type                | 0.0286                | 0.0235          | 0.0237              | 0.0253    |
+| task_planned_days        | 0.0103                | 0.0102          | 0.0198              | 0.0134    |
+| reliability_rating       | 0.014                 | 0.0103          | 0.0161              | 0.0134    |
+| vendor_safety_rating     | 0.008                 | 0.0095          | 0.0177              | 0.0117    |
+| vendor_years_active      | -0.0012               | 0.0041          | 0.0149              | 0.0059    |
+| project_planned_days     | 0.0024                | 0.0011          | 0.0059              | 0.0031    |
+| site_area_sqm            | 0.0012                | 0.0028          | 0.0031              | 0.0024    |
+| country                  | 0.005                 | -0.001          | 0.0007              | 0.0016    |
+| project_type             | 0.0023                | 0.0009          | 0.0008              | 0.0013    |
+| num_floors               | -0.0001               | 0.0027          | 0.0004              | 0.001     |
+| planned_start_year       | -0.0001               | 0.0012          | 0.0008              | 0.0006    |
+| vendor_known             | -0.0001               | 0               | 0                   | 0         |
+| manager_experience_years | 0.0001                | -0.0009         | 0                   | -0.0003   |
+| is_prequalified          | 0.0001                | -0.0013         | 0                   | -0.0004   |
+| planned_start_month      | -0.0001               | -0.0016         | 0.0003              | -0.0005   |
+| contract_type            | -0.0012               | 0.0004          | -0.0019             | -0.0009   |
 
 ### Code: compare X and y, Objective 3: Improve site safety
 
@@ -2985,6 +4077,64 @@ print("\nImportance of every input, by model (average drop in ROC AUC):")
 display(importance_by_model.round(4))
 ```
 
+#### Output
+
+![Objective 3: predicted vs actual](images/s21_01.png)
+
+```text
+Share of serious incidents in training: 25.1%
+
+Inputs in the top 8 of at least 2 of 3 models:
+```
+
+|                         | Logistic Regression   | Random Forest   | Gradient Boosting   | average   |
+|:------------------------|:----------------------|:----------------|:--------------------|:----------|
+| incident_type           | 0.1452                | 0.122           | 0.1495              | 0.1389    |
+| worker_experience_years | 0.1101                | 0.1026          | 0.1094              | 0.1074    |
+| ppe_compliant_yes       | 0.0482                | 0.019           | 0.0389              | 0.0354    |
+| shift                   | 0.0282                | 0.0346          | 0.0361              | 0.033     |
+| work_at_height_yes      | 0.0178                | 0.0274          | 0.0172              | 0.0208    |
+| vendor_safety_rating    | 0.0165                | 0.0072          | 0.0189              | 0.0142    |
+
+```text
+What the data says about the ten most important inputs:
+```
+
+| input                   | compared                                    | rate_at_low_pct   | rate_at_high_pct   | gap_points   |
+|:------------------------|:--------------------------------------------|:------------------|:-------------------|:-------------|
+| incident_type           | Slip or Trip vs Fall from Height            | 2.9               | 53.4               | 50.5         |
+| worker_experience_years | lowest quarter vs highest quarter of values | 39.7              | 9.4                | -30.3        |
+| ppe_compliant_yes       | value 0 vs value 1                          | 41.2              | 21.1               | -20.1        |
+| shift                   | Day vs Night                                | 20.5              | 38.7               | 18.2         |
+| work_at_height_yes      | value 0 vs value 1                          | 18.3              | 42.1               | 23.8         |
+| vendor_safety_rating    | lowest quarter vs highest quarter of values | 32                | 22.3               | -9.7         |
+| country                 | Australia vs Brazil                         | 13.5              | 32.9               | 19.4         |
+| no_ppe_at_height        | value 0 vs value 1                          | 22.8              | 59.5               | 36.7         |
+| incident_month          | lowest quarter vs highest quarter of values | 24.3              | 29.1               | 4.8          |
+| vendor_known            | value 0 vs value 1                          | 21.2              | 25.3               | 4.1          |
+
+```text
+Importance of every input, by model (average drop in ROC AUC):
+```
+
+|                         | Logistic Regression   | Random Forest   | Gradient Boosting   | average   |
+|:------------------------|:----------------------|:----------------|:--------------------|:----------|
+| incident_type           | 0.1452                | 0.122           | 0.1495              | 0.1389    |
+| worker_experience_years | 0.1101                | 0.1026          | 0.1094              | 0.1074    |
+| ppe_compliant_yes       | 0.0482                | 0.019           | 0.0389              | 0.0354    |
+| shift                   | 0.0282                | 0.0346          | 0.0361              | 0.033     |
+| work_at_height_yes      | 0.0178                | 0.0274          | 0.0172              | 0.0208    |
+| vendor_safety_rating    | 0.0165                | 0.0072          | 0.0189              | 0.0142    |
+| country                 | -0.001                | 0               | 0.0094              | 0.0028    |
+| no_ppe_at_height        | 0.0009                | 0.0022          | 0                   | 0.001     |
+| incident_month          | 0.0016                | -0.0053         | 0.0052              | 0.0005    |
+| vendor_known            | 0.0003                | 0.0002          | 0                   | 0.0002    |
+| project_type            | -0.0003               | -0.0075         | 0.0067              | -0.0004   |
+| high_rise               | 0.002                 | -0.0044         | 0                   | -0.0008   |
+| weather_condition       | 0.0018                | -0.0017         | -0.0039             | -0.0013   |
+| num_floors              | 0.0036                | -0.0095         | -0.0037             | -0.0032   |
+| vendor_years_active     | -0.0027               | -0.0129         | -0.0124             | -0.0093   |
+
 ### Code: compare X and y, Objective 4: Make material procurement more reliable
 
 ```python
@@ -3106,6 +4256,67 @@ print("\nImportance of every input, by model (average drop in ROC AUC):")
 display(importance_by_model.round(4))
 ```
 
+#### Output
+
+![Objective 4: predicted vs actual](images/s25_01.png)
+
+```text
+Share of late deliveries in training: 45.9%
+
+Inputs in the top 8 of at least 2 of 3 models:
+```
+
+|                        | Logistic Regression   | Random Forest   | Gradient Boosting   | average   |
+|:-----------------------|:----------------------|:----------------|:--------------------|:----------|
+| log_quantity           | 0.0301                | 0.0336          | 0.0414              | 0.0351    |
+| vendor_safety_rating   | 0.0289                | 0.0203          | 0.0346              | 0.0279    |
+| international_supplier | 0.0311                | 0.0165          | 0.0229              | 0.0235    |
+| vendor_years_active    | 0.0012                | 0.0088          | 0.0184              | 0.0095    |
+| rainy_season           | 0.012                 | 0.0032          | 0.0047              | 0.0066    |
+| country                | 0.0016                | 0.01            | 0.0014              | 0.0044    |
+| unit_price_usd         | 0.0025                | -0.0019         | 0.0113              | 0.0039    |
+| material               | 0.0063                | 0.0041          | -0.0017             | 0.0029    |
+| project_type           | -0.008                | 0.0084          | 0                   | 0.0001    |
+
+```text
+What the data says about the ten most important inputs:
+```
+
+| input                  | compared                                    | rate_at_low_pct   | rate_at_high_pct   | gap_points   |
+|:-----------------------|:--------------------------------------------|:------------------|:-------------------|:-------------|
+| log_quantity           | lowest quarter vs highest quarter of values | 34.9              | 56.5               | 21.6         |
+| vendor_safety_rating   | lowest quarter vs highest quarter of values | 53.7              | 40.7               | -13          |
+| international_supplier | value 0 vs value 1                          | 29.1              | 47.9               | 18.8         |
+| vendor_years_active    | lowest quarter vs highest quarter of values | 41.6              | 42                 | 0.4          |
+| rainy_season           | value 0 vs value 1                          | 44.2              | 56                 | 11.8         |
+| country                | South Africa vs Australia                   | 41.6              | 51.3               | 9.7          |
+| unit_price_usd         | lowest quarter vs highest quarter of values | 42.8              | 49.1               | 6.3          |
+| material               | Electrical Fittings vs Glass Panels         | 40.2              | 54.1               | 13.9         |
+| reliability_rating     | lowest quarter vs highest quarter of values | 49.1              | 44.4               | -4.7         |
+| project_type           | Infrastructure vs Residential               | 44.6              | 48.2               | 3.6          |
+
+```text
+Importance of every input, by model (average drop in ROC AUC):
+```
+
+|                        | Logistic Regression   | Random Forest   | Gradient Boosting   | average   |
+|:-----------------------|:----------------------|:----------------|:--------------------|:----------|
+| log_quantity           | 0.0301                | 0.0336          | 0.0414              | 0.0351    |
+| vendor_safety_rating   | 0.0289                | 0.0203          | 0.0346              | 0.0279    |
+| international_supplier | 0.0311                | 0.0165          | 0.0229              | 0.0235    |
+| vendor_years_active    | 0.0012                | 0.0088          | 0.0184              | 0.0095    |
+| rainy_season           | 0.012                 | 0.0032          | 0.0047              | 0.0066    |
+| country                | 0.0016                | 0.01            | 0.0014              | 0.0044    |
+| unit_price_usd         | 0.0025                | -0.0019         | 0.0113              | 0.0039    |
+| material               | 0.0063                | 0.0041          | -0.0017             | 0.0029    |
+| reliability_rating     | 0.001                 | -0.0003         | -0.0002             | 0.0002    |
+| project_type           | -0.008                | 0.0084          | 0                   | 0.0001    |
+| is_prequalified        | 0.0004                | 0.0005          | -0.0007             | 0.0001    |
+| vendor_type            | -0.0004               | 0.0001          | -0.0009             | -0.0004   |
+| lead_time_days         | -0.0007               | -0.0028         | -0.0013             | -0.0016   |
+| order_month            | -0.0009               | 0.0001          | -0.0061             | -0.0023   |
+| order_year             | -0.0038               | -0.0071         | -0.0112             | -0.0074   |
+
 ### Code: compare X and y, Objective 5: Detect procurement price and invoice anomalies
 
 ```python
@@ -3218,6 +4429,56 @@ print("\nFlag rate by price vs similar orders:")
 display(rate_peer)
 ```
 
+#### Output
+
+![Objective 5: predicted vs actual](images/s29_01.png)
+
+```text
+150 flagged orders compared with 2850 normal orders
+
+Flagged vs normal (real units, and the gap in standard-deviation units):
+```
+
+|                      | normal_median_real   | flagged_median_real   | gap_in_std_units   |
+|:---------------------|:---------------------|:----------------------|:-------------------|
+| price_ratio_peer     | 0.999                | 1.142                 | 2.706              |
+| price_ratio_material | 0.998                | 1.283                 | 2.607              |
+| log_unit_price       | 3.255                | 4.75                  | 0.504              |
+| log_quantity         | 4.997                | 5.342                 | 0.193              |
+
+```text
+Share of the original flags that disappear when one feature is shuffled:
+```
+
+|                      | flags_lost_pct   |
+|:---------------------|:-----------------|
+| price_ratio_peer     | 42.1             |
+| log_quantity         | 41.7             |
+| price_ratio_material | 39.9             |
+| log_unit_price       | 19.9             |
+
+```text
+Flag rate by price vs the material's usual price:
+```
+
+|                       | orders   | flagged   | flag_rate   |
+|:----------------------|:---------|:----------|:------------|
+| below 0.87 (cheap)    | 433      | 39        | 9           |
+| 0.87 to 1.15 (normal) | 2037     | 23        | 1.1         |
+| 1.15 to 2 (dear)      | 468      | 26        | 5.6         |
+| above 2 (very dear)   | 62       | 62        | 100         |
+
+```text
+Flag rate by price vs similar orders:
+```
+
+|                       | orders   | flagged   | flag_rate   |
+|:----------------------|:---------|:----------|:------------|
+| below 0.87 (cheap)    | 91       | 20        | 22          |
+| 0.87 to 1.15 (normal) | 2763     | 56        | 2           |
+| 1.15 to 2 (dear)      | 84       | 12        | 14.3        |
+| above 2 (very dear)   | 62       | 62        | 100         |
+
 ---
 
 ## 17. Evaluate Model
@@ -3230,7 +4491,6 @@ display(rate_peer)
 | 4. Late delivery | 0.60 | Weak. Use as a rough guide only |
 | 5. Price anomalies | n/a | Finds all 62 planted anomalies in a review list of 150 orders |
 
-![Objective 1 evaluation](images/objective_1_evaluate_model.png)
 
 > **Honest note:** the test set is only 16 projects, so exact scores can move. The rankings are more reliable than any single number. For Objective 5, a simple rule (price above 2x the material norm) also finds all 62, so the model's real value is on subtler cases that real invoices may hold.
 
@@ -3385,6 +4645,49 @@ if len(segment_table):
 print("\nConfusion matrix:")
 display(confusion)
 ```
+
+#### Output
+
+![Objective 1: model evaluation](images/s14_01.png)
+
+```text
+Best model: Logistic Regression | alert cut-off 0.36 (chosen on training folds, not on the test set)
+Test set: 482 cost lines from 16 unseen projects, 46.5% overran
+
+Scorecard on the test set:
+```
+
+|                                              | threshold   | roc_auc   | average_precision   | accuracy   | precision   | recall   | f1    |
+|:---------------------------------------------|:------------|:----------|:--------------------|:-----------|:------------|:---------|:------|
+| Logistic Regression                          | 0.36        | 0.827     | 0.824               | 0.72       | 0.658       | 0.826    | 0.733 |
+| Gradient Boosting                            | 0.5         | 0.8       | 0.782               | 0.716      | 0.687       | 0.714    | 0.7   |
+| Random Forest                                | 0.5         | 0.784     | 0.759               | 0.703      | 0.665       | 0.728    | 0.695 |
+| Baseline (always predicts the common answer) | 0.5         | 0.5       | 0.465               | 0.535      | 0           | 0        | 0     |
+
+```text
+ROC AUC of the best model: 0.827 (95% range when whole projects are resampled: 0.749 to 0.874)
+Overruns caught: 185 of 224 (83%) | false alarms: 96 of 258 (37%) | when it flags a line, it is right 66% of the time
+The two highest risk bands hold 67% of all real overruns in 40% of the lines
+
+Real overrun rate by risk band:
+```
+
+|         | cost_lines   | real_overrun_rate   | avg_predicted_chance   |
+|:--------|:-------------|:--------------------|:-----------------------|
+| Lowest  | 97           | 0.113               | 0.081                  |
+| Low     | 96           | 0.271               | 0.256                  |
+| Middle  | 96           | 0.385               | 0.482                  |
+| High    | 96           | 0.635               | 0.73                   |
+| Highest | 97           | 0.918               | 0.913                  |
+
+```text
+Confusion matrix:
+```
+
+|                        | Predicted within budget   | Predicted overrun   |
+|:-----------------------|:--------------------------|:--------------------|
+| Actually within budget | 162                       | 96                  |
+| Actually overran       | 39                        | 185                 |
 
 ### Code: evaluate model, Objective 2: Reduce schedule delays
 
@@ -3551,6 +4854,61 @@ print("\nConfusion matrix:")
 display(confusion)
 ```
 
+#### Output
+
+![Objective 2: model evaluation](images/s18_01.png)
+
+```text
+Best model: Logistic Regression | alert cut-off 0.28 (chosen on training folds, not on the test set)
+Test set: 646 tasks from 16 unseen projects, 40.9% delayed
+
+Scorecard on the test set:
+```
+
+|                                              | threshold   | roc_auc   | average_precision   | accuracy   | precision   | recall   | f1    |
+|:---------------------------------------------|:------------|:----------|:--------------------|:-----------|:------------|:---------|:------|
+| Random Forest                                | 0.5         | 0.806     | 0.748               | 0.745      | 0.714       | 0.625    | 0.667 |
+| Logistic Regression                          | 0.28        | 0.805     | 0.755               | 0.653      | 0.547       | 0.875    | 0.673 |
+| Gradient Boosting                            | 0.5         | 0.799     | 0.748               | 0.737      | 0.688       | 0.652    | 0.669 |
+| Baseline (always predicts the common answer) | 0.5         | 0.5       | 0.409               | 0.591      | 0           | 0        | 0     |
+
+```text
+ROC AUC of the best model: 0.805 (95% range when whole projects are resampled: 0.773 to 0.830)
+Delays caught: 231 of 264 (88%) | false alarms: 191 of 382 (50%) | when it flags a task, it is right 55% of the time
+The two highest risk bands hold 67% of all real delays in 40% of the tasks
+
+Real delay rate by risk band:
+```
+
+|         | tasks   | real_delay_rate   | avg_predicted_chance   |
+|:--------|:--------|:------------------|:-----------------------|
+| Lowest  | 130     | 0.092             | 0.106                  |
+| Low     | 129     | 0.256             | 0.244                  |
+| Middle  | 129     | 0.318             | 0.404                  |
+| High    | 129     | 0.589             | 0.605                  |
+| Highest | 129     | 0.791             | 0.822                  |
+
+```text
+What a stricter alert cut-off would change (test set):
+```
+
+|      | tasks_flagged_pct   | delays_caught_pct   | right_when_flagged_pct   | false_alarm_pct   |
+|:-----|:--------------------|:--------------------|:-------------------------|:------------------|
+| 0.28 | 65.3                | 87.5                | 54.7                     | 50                |
+| 0.35 | 55.4                | 80.7                | 59.5                     | 38                |
+| 0.4  | 50.2                | 77.7                | 63.3                     | 31.2              |
+| 0.45 | 45.4                | 73.1                | 65.9                     | 26.2              |
+| 0.5  | 40.2                | 67.8                | 68.8                     | 21.2              |
+
+```text
+Confusion matrix:
+```
+
+|                  | Predicted on time   | Predicted delay   |
+|:-----------------|:--------------------|:------------------|
+| Actually on time | 191                 | 191               |
+| Actually delayed | 33                  | 231               |
+
 ### Code: evaluate model, Objective 3: Improve site safety
 
 ```python
@@ -3715,6 +5073,60 @@ display(trade_off.round(1))
 print("\nConfusion matrix:")
 display(confusion)
 ```
+
+#### Output
+
+![Objective 3: model evaluation](images/s22_01.png)
+
+```text
+Best model: Logistic Regression | alert cut-off 0.37 (chosen on training folds, not on the test set)
+Test set: 152 incidents from 16 unseen projects, 25.0% serious
+
+Scorecard on the test set:
+```
+
+|                                              | threshold   | roc_auc   | average_precision   | accuracy   | precision   | recall   | f1    |
+|:---------------------------------------------|:------------|:----------|:--------------------|:-----------|:------------|:---------|:------|
+| Logistic Regression                          | 0.37        | 0.857     | 0.696               | 0.803      | 0.591       | 0.684    | 0.634 |
+| Random Forest                                | 0.5         | 0.837     | 0.601               | 0.776      | 0.625       | 0.263    | 0.37  |
+| Gradient Boosting                            | 0.5         | 0.81      | 0.525               | 0.796      | 0.606       | 0.526    | 0.563 |
+| Baseline (always predicts the common answer) | 0.5         | 0.5       | 0.25                | 0.75       | 0           | 0        | 0     |
+
+```text
+ROC AUC of the best model: 0.857 (95% range when whole projects are resampled: 0.798 to 0.918)
+Serious incidents caught: 26 of 38 (68%) | false alarms: 18 of 114 (16%) | when it flags an incident, it is right 59% of the time
+The two highest risk bands hold 82% of all serious incidents in 40% of the incidents
+
+Serious incident rate by risk band:
+```
+
+|         | incidents   | real_serious_rate   | avg_predicted_chance   |
+|:--------|:------------|:--------------------|:-----------------------|
+| Lowest  | 31          | 0                   | 0.01                   |
+| Low     | 30          | 0.067               | 0.048                  |
+| Middle  | 30          | 0.167               | 0.141                  |
+| High    | 30          | 0.4                 | 0.363                  |
+| Highest | 31          | 0.613               | 0.67                   |
+
+```text
+What a different alert cut-off would change (test set):
+```
+
+|      | incidents_flagged_pct   | serious_caught_pct   | right_when_flagged_pct   | false_alarm_pct   |
+|:-----|:------------------------|:---------------------|:-------------------------|:------------------|
+| 0.3  | 33.6                    | 73.7                 | 54.9                     | 20.2              |
+| 0.37 | 28.9                    | 68.4                 | 59.1                     | 15.8              |
+| 0.4  | 27.6                    | 65.8                 | 59.5                     | 14.9              |
+| 0.5  | 20.4                    | 50                   | 61.3                     | 10.5              |
+
+```text
+Confusion matrix:
+```
+
+|                      | Predicted not serious   | Predicted serious   |
+|:---------------------|:------------------------|:--------------------|
+| Actually not serious | 96                      | 18                  |
+| Actually serious     | 12                      | 26                  |
 
 ### Code: evaluate model, Objective 4: Make material procurement more reliable
 
@@ -3885,6 +5297,60 @@ print("\nConfusion matrix:")
 display(confusion)
 ```
 
+#### Output
+
+![Objective 4: model evaluation](images/s26_01.png)
+
+```text
+Best model: Logistic Regression | alert cut-off 0.46 (chosen on training folds, not on the test set)
+Test set: 582 orders from 16 unseen projects, 45.9% late
+
+Scorecard on the test set:
+```
+
+|                                              | threshold   | roc_auc   | average_precision   | accuracy   | precision   | recall   | f1    |
+|:---------------------------------------------|:------------|:----------|:--------------------|:-----------|:------------|:---------|:------|
+| Random Forest                                | 0.5         | 0.617     | 0.582               | 0.598      | 0.584       | 0.431    | 0.496 |
+| Gradient Boosting                            | 0.5         | 0.608     | 0.567               | 0.576      | 0.543       | 0.476    | 0.507 |
+| Logistic Regression                          | 0.46        | 0.602     | 0.568               | 0.576      | 0.535       | 0.573    | 0.553 |
+| Baseline (always predicts the common answer) | 0.5         | 0.5       | 0.459               | 0.541      | 0           | 0        | 0     |
+
+```text
+ROC AUC of the best model: 0.602 (95% range when whole projects are resampled: 0.571 to 0.639)
+Late orders caught: 153 of 267 (57%) | false alarms: 133 of 315 (42%) | when it flags an order, it is right 53% of the time
+The two highest risk bands hold 48% of all late orders in 40% of the orders
+
+Late order rate by risk band:
+```
+
+|         | orders   | real_late_rate   | avg_predicted_chance   |
+|:--------|:---------|:-----------------|:-----------------------|
+| Lowest  | 117      | 0.359            | 0.256                  |
+| Low     | 116      | 0.422            | 0.381                  |
+| Middle  | 116      | 0.405            | 0.455                  |
+| High    | 116      | 0.526            | 0.53                   |
+| Highest | 117      | 0.581            | 0.661                  |
+
+```text
+What a different alert cut-off would change (test set):
+```
+
+|      | orders_flagged_pct   | late_caught_pct   | right_when_flagged_pct   | false_alarm_pct   |
+|:-----|:---------------------|:------------------|:-------------------------|:------------------|
+| 0.4  | 64.1                 | 70                | 50.1                     | 59                |
+| 0.46 | 49.1                 | 57.3              | 53.5                     | 42.2              |
+| 0.5  | 36.6                 | 45.3              | 56.8                     | 29.2              |
+| 0.55 | 25.4                 | 32.6              | 58.8                     | 19.4              |
+
+```text
+Confusion matrix:
+```
+
+|                  | Predicted on time   | Predicted late   |
+|:-----------------|:--------------------|:-----------------|
+| Actually on time | 182                 | 133              |
+| Actually late    | 114                 | 153              |
+
 ### Code: evaluate model, Objective 5: Detect procurement price and invoice anomalies
 
 ```python
@@ -4017,6 +5483,78 @@ if len(miss_table):
     display(miss_table)
 ```
 
+#### Output
+
+![Objective 5: model evaluation](images/s30_01.png)
+
+```text
+Answer key opened from construction_raw/anomaly_answer_key.csv: 62 real anomalies in 3,000 orders (2.1%)
+```
+
+|                                    | value   |
+|:-----------------------------------|:--------|
+| orders                             | 3,000   |
+| real anomalies                     | 62      |
+| orders flagged                     | 150     |
+| anomalies caught                   | 62      |
+| anomalies missed                   | 0       |
+| false alarms                       | 88      |
+| recall (share of anomalies caught) | 1       |
+| precision (flags that are real)    | 0.413   |
+| F1                                 | 0.585   |
+| ROC AUC of the score               | 1       |
+| average precision of the score     | 1       |
+
+```text
+If we review exactly 62 orders (the true anomaly count), 100% of them are real anomalies.
+
+Catch rate at different review budgets:
+```
+
+|     | orders_reviewed   | anomalies_caught   | recall_pct   | precision_pct   | random_review_would_catch   |
+|:----|:------------------|:-------------------|:-------------|:----------------|:----------------------------|
+| 1%  | 30                | 30                 | 48.4         | 100             | 0.6                         |
+| 2%  | 60                | 60                 | 96.8         | 100             | 1.2                         |
+| 3%  | 90                | 62                 | 100          | 68.9            | 1.9                         |
+| 5%  | 150               | 62                 | 100          | 41.3            | 3.1                         |
+| 10% | 300               | 62                 | 100          | 20.7            | 6.2                         |
+
+```text
+Isolation Forest against a one-line rule:
+```
+
+|                                               | orders flagged   | anomalies caught   | recall   | precision   |
+|:----------------------------------------------|:-----------------|:-------------------|:---------|:------------|
+| Isolation Forest (top 5%)                     | 150              | 62                 | 1        | 0.413       |
+| Simple rule: price above 2x the material norm | 62               | 62                 | 1        | 1           |
+
+```text
+Price level of every order, real anomalies and flags:
+```
+
+|                | orders   | real_anomalies   | flagged   |
+|:---------------|:---------|:-----------------|:----------|
+| cheap (<0.87)  | 460      | 0                | 40        |
+| normal         | 2028     | 0                | 24        |
+| dear (1.15-2)  | 450      | 0                | 24        |
+| very dear (>2) | 62       | 62               | 62        |
+
+```text
+Why the false alarms were flagged:
+```
+
+|                                   | false_alarms   |
+|:----------------------------------|:---------------|
+| priced below the material norm    | 39             |
+| priced above the material norm    | 26             |
+| unusual order quantity            | 19             |
+| priced below similar orders       | 3              |
+| unusual mix of price and quantity | 1              |
+
+```text
+Real anomalies the model missed: 0
+```
+
 ---
 
 ## 18. Business Analysis
@@ -4029,8 +5567,6 @@ What does a model actually save? Compare reviewing the riskiest slice of items a
 | 2. Delay days | Top 40% | **63%** | 40% |
 | 3. Lost safety days | Top 40% | **83%** | 40% |
 | 5. Money paid above the norm | Top 5% of orders | **88%** | 5% |
-
-![Business analysis](images/business_analysis.png)
 
 ### Code: business analysis
 
@@ -4232,6 +5768,68 @@ print("Assumptions: the material norm is the fair price; a 40% review budget for
       "losses are measured in the dollars or days recorded in the cleaned tables.")
 ```
 
+#### Output
+
+![Business analysis: share of loss found by reviewing the riskiest slice](images/s31_01.png)
+
+```text
+Loss captured by reviewing the riskiest slice (test set for Objectives 1-4, all orders for Objective 5):
+```
+
+|                                          | loss measured                                       | total loss in test set   | items reviewed   | loss inside reviewed items   | share of loss captured   | capture vs random (times)   |
+|:-----------------------------------------|:----------------------------------------------------|:-------------------------|:-----------------|:-----------------------------|:-------------------------|:----------------------------|
+| Objective 1: cost overrun                | money spent above budget (USD)                      | 60,809,956.46            | 193              | 35,247,424.94                | 0.5796                   | 1.4491                      |
+| Objective 2: schedule delay              | task days lost to delay (days)                      | 3,120                    | 258              | 1,977                        | 0.6337                   | 1.5841                      |
+| Objective 3: serious safety incident     | worker days lost to incidents (days)                | 1,540                    | 61               | 1,271                        | 0.8253                   | 2.0633                      |
+| Objective 4: late material delivery      | days materials arrived late (days)                  | 1,649                    | 233              | 822                          | 0.4985                   | 1.2462                      |
+| Objective 5: price and invoice anomalies | money paid beyond 15% above the material norm (USD) | 6,095,147.3093           | 150              | 5,339,208.1098               | 0.876                    | 17.5195                     |
+
+```text
+Objective 1 check: dollars are concentrated in big budget lines, so what ranking finds the most overrun dollars?
+```
+
+|                      | share of overrun dollars found   |
+|:---------------------|:---------------------------------|
+| Random review        | 40                               |
+| Model risk only      | 58                               |
+| Largest budgets only | 75.6                             |
+| Model risk x budget  | 74.5                             |
+
+```text
+The three worst segments for each objective (whole cleaned data):
+```
+
+|                                      | segment                          | share of items   | share of loss   | times the average   |
+|:-------------------------------------|:---------------------------------|:-----------------|:----------------|:--------------------|
+| Objective 1: cost overrun            | cost_category = Materials        | 0.1998           | 0.4048          | 2.0265              |
+| Objective 1: cost overrun            | country = India                  | 0.0651           | 0.0991          | 1.5231              |
+| Objective 1: cost overrun            | country = United States          | 0.0862           | 0.1243          | 1.4414              |
+| Objective 2: schedule delay          | rainy_season = 1.0               | 0.1317           | 0.2418          | 1.8354              |
+| Objective 2: schedule delay          | crew_band = Small                | 0.2816           | 0.3908          | 1.388               |
+| Objective 2: schedule delay          | task_type = Structural Frame     | 0.1739           | 0.2383          | 1.3704              |
+| Objective 3: serious safety incident | no_ppe_at_height = 1             | 0.0613           | 0.2152          | 3.5087              |
+| Objective 3: serious safety incident | incident_type = Fall from Height | 0.1987           | 0.4517          | 2.2738              |
+| Objective 3: serious safety incident | incident_type = Trench Collapse  | 0.0853           | 0.1813          | 2.1247              |
+| Objective 4: late material delivery  | material = Glass Panels          | 0.2473           | 0.3032          | 1.2257              |
+| Objective 4: late material delivery  | rainy_season = 1.0               | 0.1287           | 0.1571          | 1.221               |
+| Objective 4: late material delivery  | country = Nigeria                | 0.1213           | 0.1369          | 1.1284              |
+
+```text
+What-if scenarios (upper bounds: they assume the gap is caused by the factor, which the data cannot prove):
+```
+
+|                                      | scenario                                                           | rate in group   | rate elsewhere   | events avoided   | loss avoided    | loss unit   | share of all events   |
+|:-------------------------------------|:-------------------------------------------------------------------|:----------------|:-----------------|:-----------------|:----------------|:------------|:----------------------|
+| Objective 1: cost overrun            | Cost Plus lines overrun as rarely as the rest                      | 0.657           | 0.4052           | 148.3646         | 22,692,902.0712 | USD         | 0.1318                |
+| Objective 2: schedule delay          | Tasks with a crew of 18 or fewer are delayed as rarely as the rest | 0.601           | 0.3415           | 218.4192         | 2,278.7253      | days        | 0.165                 |
+| Objective 3: serious safety incident | Work at height without PPE is as safe as the rest                  | 0.587           | 0.2287           | 16.4801          | 1,022.9878      | days        | 0.0877                |
+| Objective 4: late material delivery  | International orders arrive late as rarely as local ones           | 0.4799          | 0.3092           | 436.7772         | 2,624.5755      | days        | 0.3262                |
+
+```text
+Objective 5: 150 orders flagged out of 3,000 hold $5,339,208 of the $6,095,147 paid beyond the 15% tolerance (88%).
+Assumptions: the material norm is the fair price; a 40% review budget for Objectives 1-4 and 5% for Objective 5; losses are measured in the dollars or days recorded in the cleaned tables.
+```
+
 ---
 
 ## 19. Save Model, Scaler and Features
@@ -4391,6 +5989,50 @@ print("Objective 5: scores match to about 0.001, because training used price rat
 print("Download them in the next step.")
 ```
 
+#### Output
+
+|                                          | model               | rows re-scored   | features identical   | max prediction difference   | unseen labels handled   |
+|:-----------------------------------------|:--------------------|:-----------------|:---------------------|:----------------------------|:------------------------|
+| Objective 1: cost overrun                | Logistic Regression | 482              | True                 | 0                           | True                    |
+| Objective 2: schedule delay              | Logistic Regression | 646              | True                 | 0                           | True                    |
+| Objective 3: serious safety incident     | Logistic Regression | 152              | True                 | 0                           | True                    |
+| Objective 4: late material delivery      | Logistic Regression | 582              | True                 | 0                           | True                    |
+| Objective 5: price and invoice anomalies | Isolation Forest    | 3000             | True                 | 0.0011                      | True                    |
+
+```text
+Saved 21 files to construction_models/:
+```
+
+|                                        | size_kb   |
+|:---------------------------------------|:----------|
+| cost_overrun_encoder.joblib            | 1.8       |
+| cost_overrun_features.joblib           | 1.6       |
+| cost_overrun_model.joblib              | 2.1       |
+| cost_overrun_scaler.joblib             | 6.5       |
+| late_delivery_encoder.joblib           | 1.8       |
+| late_delivery_features.joblib          | 1.6       |
+| late_delivery_model.joblib             | 2         |
+| late_delivery_scaler.joblib            | 6         |
+| model_card.joblib                      | 0.9       |
+| price_anomalies_features.joblib        | 0.7       |
+| price_anomalies_model.joblib           | 5,185.3   |
+| price_anomalies_price_reference.joblib | 0.9       |
+| price_anomalies_scaler.joblib          | 3         |
+| schedule_delay_encoder.joblib          | 1.9       |
+| schedule_delay_features.joblib         | 1.8       |
+| schedule_delay_model.joblib            | 2.2       |
+| schedule_delay_scaler.joblib           | 6.9       |
+| site_safety_encoder.joblib             | 2.1       |
+| site_safety_features.joblib            | 1.8       |
+| site_safety_model.joblib               | 2.2       |
+| site_safety_scaler.joblib              | 6.6       |
+
+```text
+Objectives 1-4: the saved pipeline (raw row -> encode -> scale -> model) reproduces the notebook's predictions exactly.
+Objective 5: scores match to about 0.001, because training used price ratios rounded to 4 decimals. The same orders are flagged.
+Download them in the next step.
+```
+
 ---
 
 ## 20. Download Model, Scaler and Features
@@ -4457,6 +6099,28 @@ print(f"\n{ZIP_PATH.name}: {len(names)} files, {ZIP_PATH.stat().st_size / 1024 /
 print(f"Zip saved here:        {ZIP_PATH.resolve()}")
 print(f"Copy in Downloads:     {copied_to if copied_to else 'Downloads folder not found, use the path above'}")
 print("\nTo use the models later, unzip and call joblib.load('construction_models/<objective>_model.joblib'), the same for _scaler and _features.")
+```
+
+#### Output
+
+```text
+construction_models.zip
+```
+
+|                 | model              | scaler            | features   | encoder             |
+|:----------------|:-------------------|:------------------|:-----------|:--------------------|
+| cost_overrun    | LogisticRegression | ColumnTransformer | 34         | OneHotEncoder       |
+| schedule_delay  | LogisticRegression | ColumnTransformer | 38         | OneHotEncoder       |
+| site_safety     | LogisticRegression | ColumnTransformer | 36         | OneHotEncoder       |
+| late_delivery   | LogisticRegression | ColumnTransformer | 32         | OneHotEncoder       |
+| price_anomalies | IsolationForest    | ColumnTransformer | 4          | none (numbers only) |
+
+```text
+construction_models.zip: 21 files, 1.3 MB, all files load again after unzipping
+Zip saved here:        construction_models.zip
+Copy in Downloads:     <your Downloads folder>/construction_models.zip
+
+To use the models later, unzip and call joblib.load('construction_models/<objective>_model.joblib'), the same for _scaler and _features.
 ```
 
 ---
@@ -4600,6 +6264,41 @@ show(Markdown(markdown))
 print(f"{len(findings)} findings saved to {OUT_DIR}/key_findings.csv and key_findings.md")
 ```
 
+#### Output
+
+#### Key findings and insights
+
+#### Portfolio
+- **Problems are common, not rare.** 47% of cost lines overran by more than 15%, 41% of tasks finished late, 25% of incidents were serious and 46% of material orders arrived late. *Control has to be built into routine work, because these are not exceptions.*
+
+#### 1. Cost overruns
+- **Contract type is the strongest overrun driver.** Cost Plus lines overran 66% of the time, Fixed Price 36%. *Cost Plus gives the contractor little reason to hold costs down.*
+- **Materials and one country stand out.** Materials lines overran 69% of the time against 21% for Overheads. Nigeria ran at 69% against 27% in the United States. *Material price control and country-specific cost planning matter most.*
+- **Dollars follow budget size, not just risk.** Reviewing the largest 40% of budgets finds 76% of overrun dollars. The risk score alone finds 58%. *Use the model to flag risky small lines, and watch the big budget lines regardless.*
+
+#### 2. Schedule delay
+- **Understaffed tasks slip far more often.** Tasks with a crew of 18 or fewer were delayed 60% of the time, the rest 34%. *Crew size is the one delay driver that managers control directly.*
+- **The rainy season roughly doubles the delay risk.** Rainy-season tasks were delayed 75% of the time, dry-season tasks 36%. (The rainy-season calendar is a domain assumption.) *Plan buffers and crew levels around the rainy months.*
+
+#### 3. Site safety
+- **Height work without PPE is the most dangerous condition.** 59% of incidents involving height work without PPE were serious, against 23% otherwise. *Enforce PPE at height first. It is cheap and the effect is large.*
+- **Falls are the serious ones; experience protects.** 52% of falls from height were serious, against 4% of slips and trips. Least-experienced workers: 41% serious, most-experienced: 9%. Night shifts: 38% against 21% on days. *Pair new workers with experienced ones and add supervision on night shifts and at height.*
+
+#### 4. Late delivery
+- **Late delivery is hard to predict from the data we hold.** The model reaches a ROC AUC of only 0.60 (0.50 is a coin flip). The riskiest 40% of orders hold 50% of late days. *Treat the model as a rough guide, not a control.*
+- **International orders arrive late more often.** International orders were late 48% of the time, local orders 29%. *Add buffer time, or use local suppliers for critical materials.*
+
+#### 5. Price anomalies
+- **A small set of orders carries most of the overpricing.** The 5% of orders the Isolation Forest flags hold 88% of the money paid beyond 15% above the material norm. *A 150-order review list covers nearly all of the pricing risk.*
+- **The model finds every planted anomaly, but so does a simple rule.** The model caught 62 of 62 real anomalies (150 orders flagged). A one-line rule (price above 2x the material norm) also caught 62 with 62 flags. *Start with the rule. Keep the model for subtler cases that real invoices may contain.*
+
+#### Models
+- **Simple models were enough.** Logistic Regression was the best model for all four classification objectives. Test ROC AUC: overrun 0.83, delay 0.80, safety 0.86, late delivery 0.60. *The models are explainable, which helps with trust and adoption on site.*
+
+```text
+13 findings saved to construction_business/key_findings.csv and key_findings.md
+```
+
 ---
 
 ## 22. Recommendations
@@ -4736,6 +6435,98 @@ show(Markdown(markdown))
 print(f"{len(recommendations)} recommendations saved to {OUT_DIR}/recommendations.csv and recommendations.md")
 ```
 
+#### Output
+
+#### Recommendations
+
+Ordered by priority: high impact and low effort first. Impact figures are upper bounds, not promises.
+
+#### 1. Enforce PPE on every job at height
+- **Why:** Height work without PPE is the most dangerous condition (3.5 times the average lost days per incident).
+- **Expected impact:** Up to 1,023 worker days saved if these incidents were as safe as the rest.
+- **Effort:** Low | **Owner:** Site safety manager
+- **How to measure:** Share of height tasks with PPE confirmed; serious incidents per 100 height tasks
+- **First step:** Make PPE sign-off a start condition for any height task, and spot-check weekly.
+
+#### 2. Set a minimum crew size for critical tasks
+- **Why:** Tasks with the smallest crews were delayed about 60% of the time, against 34% for the rest.
+- **Expected impact:** Up to 2,279 task days saved if small-crew tasks slipped as rarely as the rest.
+- **Effort:** Medium | **Owner:** Project managers
+- **How to measure:** Share of tasks below minimum crew; delayed-task rate
+- **First step:** Set the minimum from the data (crews of 18 or fewer are the high-risk group) and review the exceptions.
+
+#### 3. Check invoices against the material norm before payment
+- **Why:** A one-line rule (price above 2x the material norm) caught 62 of the 62 known anomalies with only 62 flags.
+- **Expected impact:** The weekly top-5% review holds 88% ($5.3M of $6.1M) of money paid beyond 15% above the norm.
+- **Effort:** Low | **Owner:** Procurement and accounts payable
+- **How to measure:** Money recovered or blocked; share of flagged orders confirmed as errors
+- **First step:** Start with the rule, then review the Isolation Forest's 150 highest-scoring orders each cycle.
+
+#### 4. Add cost-control incentives to Cost Plus contracts
+- **Why:** Cost Plus lines overran 66% of the time against 36% for Fixed Price.
+- **Expected impact:** Up to $22.7M of overrun if these lines overran as rarely as the rest (an upper bound).
+- **Effort:** High | **Owner:** Commercial and contracts team
+- **How to measure:** Overrun rate and overrun dollars by contract type
+- **First step:** Add caps, shared-saving clauses or milestone cost checks to Cost Plus contracts, starting with the biggest ones.
+
+#### 5. Run a weekly overrun review on the largest budget lines, topped up by the model
+- **Why:** Overrun dollars sit in big lines: the largest 40% of budgets hold 76% of them. Ranking by risk times budget finds 75%.
+- **Expected impact:** The model adds value on smaller lines that the budget-only view would skip.
+- **Effort:** Low | **Owner:** Cost controllers
+- **How to measure:** Overrun dollars found early; lines reviewed per week
+- **First step:** Review all large lines plus any line the cost-overrun model scores above its 0.36 alert cut-off.
+
+#### 6. Add rainy-season buffers and crew cover to schedules
+- **Why:** Rainy-season tasks were delayed about 75% of the time against 36% in the dry season, and late material orders also rise.
+- **Expected impact:** A large share of delay risk is predictable from the calendar.
+- **Effort:** Low | **Owner:** Planners
+- **How to measure:** Delay rate in rainy against dry months
+- **First step:** Plan outdoor and structural tasks for the dry season where possible, and add buffer days when they cannot move.
+
+#### 7. Control Materials prices, mainly in Nigeria and India
+- **Why:** Materials lines overran 69% of the time against 21% for Overheads, and Nigeria and India run well above the average.
+- **Expected impact:** Materials hold 40% of all overrun dollars in 20% of cost lines.
+- **Effort:** Medium | **Owner:** Procurement
+- **How to measure:** Materials overrun rate by country; price ratio to the material norm
+- **First step:** Use framework agreements or price caps for key materials, and re-quote when prices move.
+
+#### 8. Buffer or localise material deliveries
+- **Why:** International orders were late 48% of the time against 29% for local orders.
+- **Expected impact:** Up to 2,625 delay days if international orders arrived as reliably as local ones. Delivery risk is only weakly predictable.
+- **Effort:** Medium | **Owner:** Supply chain
+- **How to measure:** Late-delivery rate by supplier origin; days late per order
+- **First step:** Add lead-time buffer for international orders, and prefer local or pre-qualified suppliers for critical materials.
+
+#### 9. Add supervision on night shifts and pair new workers with experienced ones
+- **Why:** Serious incidents were 38% on night shifts against 21% on days, and 41% for the least-experienced workers against 9% for the most.
+- **Expected impact:** Targets the people and shifts where serious injuries concentrate.
+- **Effort:** Medium | **Owner:** Site safety manager and HR
+- **How to measure:** Serious incident rate by shift and by experience band
+- **First step:** Assign a supervisor to every night shift and a buddy to every worker in the least-experienced quarter of the workforce.
+
+#### 10. Use the models as ranking tools and review them every quarter
+- **Why:** The models rank risk well for overruns, delays and safety, and poorly for late delivery (ROC AUC 0.60).
+- **Expected impact:** Keeps staff attention on the right items without false confidence.
+- **Effort:** Low | **Owner:** Data team
+- **How to measure:** ROC AUC on new data; share of flagged items confirmed
+- **First step:** Retrain quarterly on new data. Do not use the late-delivery model for decisions until better delivery data is collected.
+
+#### 11. Capture better delivery and invoice data at the source
+- **Why:** Cleaning had to repair mixed date formats, currency symbols, unit spellings and orphan project codes.
+- **Expected impact:** Cleaner data improves every model, and it would lift the weak late-delivery model most.
+- **Effort:** Medium | **Owner:** Data and IT teams
+- **How to measure:** Share of records passing validation at entry
+- **First step:** Standardise dates, currency and units in the entry forms, and add carrier, port and lead-time fields to orders.
+
+#### Limits to keep in mind
+- Impact figures come from comparing groups in historical data, which shows a link and not proof of cause.
+- The rainy-season calendar and the 15% price tolerance are assumptions.
+- The Objective 5 results are measured against the known anomalies in the dataset, which are easier to find than subtle real ones.
+
+```text
+11 recommendations saved to construction_business/recommendations.csv and recommendations.md
+```
+
 ---
 
 ## 23. Conclusion
@@ -4816,6 +6607,49 @@ display(scorecard)
 show(Markdown(markdown))
 print(f"Rows used: {rows_used}")
 print(f"Conclusion saved to {OUT_DIR}/conclusion.md and final_scorecard.csv")
+```
+
+#### Output
+
+|                    | model               | test result                    | business value                                      | verdict                                      |
+|:-------------------|:--------------------|:-------------------------------|:----------------------------------------------------|:---------------------------------------------|
+| 1. Cost overruns   | Logistic Regression | ROC AUC 0.83                   | 58% of overrun dollars in the riskiest 40% of lines | Good ranking, dollars follow budget size     |
+| 2. Schedule delay  | Logistic Regression | ROC AUC 0.80                   | 63% of delay days in the riskiest 40% of tasks      | Good ranking                                 |
+| 3. Site safety     | Logistic Regression | ROC AUC 0.86                   | 83% of lost days in the riskiest 40% of incidents   | Strongest model                              |
+| 4. Late delivery   | Logistic Regression | ROC AUC 0.60                   | 50% of late days in the riskiest 40% of orders      | Weak, use only as a rough guide              |
+| 5. Price anomalies | Isolation Forest    | 62 of 62 known anomalies found | 88% of overpaid dollars in 5% of orders             | Excellent here, but a simple rule matches it |
+
+#### Conclusion
+
+#### What we set out to do
+Build machine learning models on six construction tables (projects, vendors, cost ledger, tasks, material orders and safety incidents) that help managers control cost, schedule, safety and procurement risk.
+
+#### What we did
+We audited and cleaned the data, engineered features, built a star schema, and prepared one analytical base table per business objective. We kept whole projects together in the train and test split so that results reflect new projects, not memorised ones. We compared four models for each classification objective and used an Isolation Forest for price anomalies. The saved models, scalers and feature lists are in `construction_models/`.
+
+#### What we found
+- Cost overruns are driven by contract type, cost category and country, not by project size. Cost Plus and Materials lines are the main hotspots.
+- Delays are a staffing and weather problem. Small crews and the rainy season account for most of the risk.
+- Serious safety incidents concentrate in height work without PPE, falls, inexperienced workers and night shifts.
+- Late deliveries are hard to predict from the data we have. International orders are late more often, and that is the main lever.
+- A small set of orders carries most of the overpricing, and the Isolation Forest finds all 62 known anomalies in a review list of 150 orders.
+
+#### What the models are worth
+Reviewing only the riskiest slice finds 58% of overrun dollars, 63% of delay days and 83% of lost safety days, against 40% for a random review. The price-anomaly list finds 88% of overpaid dollars in 5% of orders.
+
+#### Limits
+- Test sets are small, with 16 unseen projects each, so exact scores can move. The rankings are more reliable than single numbers.
+- Group differences show a link, not proof of cause. The what-if figures are upper bounds.
+- The rainy-season calendar and the 15% price tolerance are assumptions.
+- Price anomalies are measured against known anomalies, which are easier to find than subtle real ones, and a simple price rule performs just as well here.
+- The late-delivery model is weak, and it should be used only as a rough guide.
+
+#### Next steps
+Put the models behind a simple app so managers can score new cost lines, tasks, incidents and orders. Retrain every quarter. Collect better delivery data (carrier, port, supplier lead times) to improve the weakest model. Track the measures in the recommendations to see whether the actions work.
+
+```text
+Rows used: {'cost_overrun': 2413, 'schedule_delay': 3237, 'site_safety': 750, 'late_delivery': 2918, 'price_anomalies': 3000}
+Conclusion saved to construction_business/conclusion.md and final_scorecard.csv
 ```
 
 ---
