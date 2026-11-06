@@ -1071,7 +1071,7 @@ Every fact table links to the dimension tables (projects, vendors, dates) throug
 ### Charts
 
 <p align="center">
-  <img src="images/star_schema.png" alt="Star schema of the construction data" width="100%">
+  <img width="2055" height="1263" alt="star_schema" src="https://github.com/user-attachments/assets/6bc0ae05-e2a9-4e43-9401-f34154edd529" />
 </p>
 <p align="center"><em>The star schema: four fact tables around the project, vendor and date dimensions</em></p>
 
@@ -1262,47 +1262,47 @@ Nine charts, each answering one question before any model is built.
 ### Charts
 
 <p align="center">
-  <img src="images/eda_01_portfolio_overview.png" alt="Portfolio overview" width="100%">
+  <img width="1530" height="501" alt="eda_01_portfolio_overview" src="https://github.com/user-attachments/assets/bf745d0a-dc5b-4175-94c8-5e465628f122" />
 </p>
 <p align="center"><em>How common are overruns, delays, serious incidents and late deliveries?</em></p>
 
 <p align="center">
-  <img src="images/eda_02_cost_overruns_by_category.png" alt="Cost overruns by category" width="100%">
+  <img width="1529" height="501" alt="eda_02_cost_overruns_by_category" src="https://github.com/user-attachments/assets/b886d0c3-cada-48e4-b6ec-0d74bb6e8a66" />
 </p>
 <p align="center"><em>Q1.1 How big are the overruns, and in which cost categories?</em></p>
 
 <p align="center">
-  <img src="images/eda_03_cost_overruns_by_project.png" alt="Cost overruns by country, project type and contract" width="100%">
+  <img width="1749" height="522" alt="eda_03_cost_overruns_by_project" src="https://github.com/user-attachments/assets/6df042a2-1cb0-48fc-b166-a60e64ddd263" />
 </p>
 <p align="center"><em>Q1.2 Overruns by country, project type and contract type</em></p>
 
 <p align="center">
-  <img src="images/eda_04_cost_overruns_over_time.png" alt="Cost overruns over time" width="100%">
+  <img width="1530" height="458" alt="eda_04_cost_overruns_over_time" src="https://github.com/user-attachments/assets/96cfb9c4-2823-41eb-80b0-59c0b91c6e9c" />
 </p>
 <p align="center"><em>Q1.3 Are overruns getting better or worse over time?</em></p>
 
 <p align="center">
-  <img src="images/eda_05_task_delays_drivers.png" alt="What drives task delays" width="100%">
+  <img width="1530" height="921" alt="eda_05_task_delays_drivers" src="https://github.com/user-attachments/assets/1ab285d8-c3ca-4836-ad82-6b308c8682d5" />
 </p>
 <p align="center"><em>Q2.1 What drives schedule delays?</em></p>
 
 <p align="center">
-  <img src="images/eda_06_task_delay_size_and_timing.png" alt="Size and timing of task delays" width="100%">
+  <img width="1530" height="501" alt="eda_06_task_delay_size_and_timing" src="https://github.com/user-attachments/assets/c2af4856-b488-4cb8-997c-b713887d97c8" />
 </p>
 <p align="center"><em>Q2.2 How late are late tasks, and when do they start?</em></p>
 
 <p align="center">
-  <img src="images/eda_07_safety_serious_incidents.png" alt="Serious incidents" width="100%">
+  <img width="1530" height="921" alt="eda_07_safety_serious_incidents" src="https://github.com/user-attachments/assets/dc70cf7a-7bf5-4ebe-8329-7184417d0c00" />
 </p>
 <p align="center"><em>Q3 Where do serious incidents concentrate?</em></p>
 
 <p align="center">
-  <img src="images/eda_08_late_deliveries.png" alt="Late deliveries" width="100%">
+  <img width="1530" height="921" alt="eda_08_late_deliveries" src="https://github.com/user-attachments/assets/85b08516-266b-425a-beaf-c13feeae2d35" />
 </p>
 <p align="center"><em>Q4 What makes material orders late?</em></p>
 
 <p align="center">
-  <img src="images/eda_09_price_anomalies.png" alt="Price anomalies" width="100%">
+  <img width="1530" height="501" alt="eda_09_price_anomalies" src="https://github.com/user-attachments/assets/d008a63c-c031-43aa-a9bb-d67897e37180" />
 </p>
 <p align="center"><em>Q5 What does a normal price look like, and what does an unusual one look like?</em></p>
 
@@ -2832,27 +2832,27 @@ These drivers match what the EDA found, which is a useful check that the models 
 ### Charts
 
 <p align="center">
-  <img src="images/obj1_features.png" alt="Objective 1: what drives cost overruns" width="100%">
+  <img width="2980" height="1107" alt="objective_1_compare_x_and_y" src="https://github.com/user-attachments/assets/e6c2e3e5-d01d-46fa-8059-53803c125b80" />
 </p>
 <p align="center"><em>Objective 1: Cost overruns</em></p>
 
 <p align="center">
-  <img src="images/obj2_features.png" alt="Objective 2: what drives schedule delays" width="100%">
+  <img width="2980" height="1107" alt="objective_2_compare_x_and_y" src="https://github.com/user-attachments/assets/3954b4dc-bb49-4116-a38c-2945dd2da833" />
 </p>
 <p align="center"><em>Objective 2: Schedule delays</em></p>
 
 <p align="center">
-  <img src="images/obj3_features.png" alt="Objective 3: what drives serious incidents" width="100%">
+  <img width="2980" height="1107" alt="objective_3_compare_x_and_y" src="https://github.com/user-attachments/assets/7f189b84-b9fa-4427-8452-a168c7e02047" />
 </p>
 <p align="center"><em>Objective 3: Site safety</em></p>
 
 <p align="center">
-  <img src="images/obj4_features.png" alt="Objective 4: what drives late deliveries" width="100%">
+  <img width="2979" height="1107" alt="objective_4_compare_x_and_y" src="https://github.com/user-attachments/assets/6e79e96b-d2c4-494a-a7cb-321dcb172107" />
 </p>
 <p align="center"><em>Objective 4: Late material delivery</em></p>
 
 <p align="center">
-  <img src="images/obj5_features.png" alt="Objective 5: what drives price anomalies" width="100%">
+  <img width="3580" height="1107" alt="objective_5_compare_x_and_y" src="https://github.com/user-attachments/assets/8a262f67-0803-4be9-a707-002e7e55bd3e" />
 </p>
 <p align="center"><em>Objective 5: Price and invoice anomalies</em></p>
 
@@ -3520,27 +3520,27 @@ The more complex models are never meaningfully better (Random Forest is 0.001 hi
 ### Charts
 
 <p align="center">
-  <img src="images/obj1_evaluation.png" alt="Objective 1 evaluation" width="100%">
+  <img width="1969" height="587" alt="obj1_evaluation" src="https://github.com/user-attachments/assets/9a3fe31c-c7fc-4a47-a63a-5b78325edaf5" />
 </p>
 <p align="center"><em>Objective 1: Cost overruns, evaluation on unseen projects</em></p>
 
 <p align="center">
-  <img src="images/obj2_evaluation.png" alt="Objective 2 evaluation" width="100%">
+  <img width="1969" height="587" alt="obj2_evaluation" src="https://github.com/user-attachments/assets/d2d67249-666d-49f9-8d4c-23f070aadfc4" />
 </p>
 <p align="center"><em>Objective 2: Schedule delays, evaluation on unseen projects</em></p>
 
 <p align="center">
-  <img src="images/obj3_evaluation.png" alt="Objective 3 evaluation" width="100%">
+  <img width="1969" height="587" alt="obj3_evaluation" src="https://github.com/user-attachments/assets/cea2e5a7-c460-46ef-a52c-cb59d76af174" />
 </p>
 <p align="center"><em>Objective 3: Site safety, evaluation on unseen projects</em></p>
 
 <p align="center">
-  <img src="images/obj4_evaluation.png" alt="Objective 4 evaluation" width="100%">
+  <img width="1969" height="587" alt="obj4_evaluation" src="https://github.com/user-attachments/assets/b1ff730a-549a-4f6a-96ac-3e69009f65be" />
 </p>
 <p align="center"><em>Objective 4: Late material delivery, evaluation on unseen projects</em></p>
 
 <p align="center">
-  <img src="images/obj5_evaluation.png" alt="Objective 5 evaluation" width="100%">
+  <img width="1893" height="587" alt="obj5_evaluation" src="https://github.com/user-attachments/assets/de65a2fe-092e-4583-9de5-58852027cf66" />
 </p>
 <p align="center"><em>Objective 5: Price and invoice anomalies, evaluation against the answer key</em></p>
 
@@ -4389,17 +4389,15 @@ A model score is only useful if it changes a decision. For each objective, this 
 ### Charts
 
 <p align="center">
-  <img src="images/business_all_objectives.png" alt="Share of loss found by reviewing the riskiest slice" width="100%">
+  <img width="1750" height="598" alt="business_all_objectives" src="https://github.com/user-attachments/assets/6cb29b6a-d07f-49ab-aab6-b309832c857c" />
 </p>
 <p align="center"><em>All five objectives: share of the loss found by reviewing the riskiest slice, against a random review</em></p>
 
 ### Code: business analysis (one cell for all five objectives)
 
 ```python
-# ============================================================
 # BUSINESS ANALYSIS - WHAT THE FIVE MODELS ARE WORTH
 # Turns model results into money, days and workload. Every assumption is written next to the number it affects.
-# ============================================================
 
 # %%
 from pathlib import Path
@@ -4627,9 +4625,7 @@ Plus `model_card.joblib`, which records the library versions and test results. I
 ### Code: save model, scaler and features
 
 ```python
-# ============================================================
 # SAVE MODEL, SCALER AND FEATURES
-# ============================================================
 
 # %%
 import platform
@@ -4871,12 +4867,6 @@ The saved files power the app, [`app.py`](app.py). It has a Home page and one pa
 - The forms ask plain questions. The app works out the model's derived inputs itself, such as high-rise, budget per sqm, lead time and rainy season.
 - The late-delivery page carries a warning that this is the weakest model, and the safety page says it scores an incident that has already happened.
 
-**Run it yourself**
-
-```bash
-pip install streamlit pandas numpy scikit-learn joblib
-streamlit run app.py
-```
 
 Live app: [Open the Streamlit app](https://construction-project-business-operations-predictive-support-sy.streamlit.app/)
 
@@ -4893,13 +4883,6 @@ A simple Streamlit app with five models:
   4. Material procurement  - how likely is a material order to arrive late?
   5. Price anomalies       - is the unit price on an order suspiciously far from the norm?
 
-How to run (in the VS Code terminal, in the folder that holds this file):
-    pip install streamlit pandas numpy scikit-learn joblib
-    streamlit run app.py
-
-This file expects a folder called  construction_models  next to it, holding the
-.joblib files you downloaded (models, scalers, encoders, features, price reference).
-"""
 
 from datetime import date, timedelta
 from io import StringIO
@@ -4910,9 +4893,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-# ======================================================================================
 # 1. PAGE SETUP AND SETTINGS
-# ======================================================================================
 st.set_page_config(page_title="Construction Predictive Support System", layout="wide")
 
 # Find the folder that holds the model files, wherever it sits in the repo
@@ -4931,9 +4912,7 @@ RAINY_MONTHS = {"Nigeria": [6, 7, 8, 9], "India": [6, 7, 8, 9],
 PRICE_TOLERANCE = 1.15      # up to 15% above the material norm counts as normal price variation
 
 
-# ======================================================================================
 # 2. LOAD THE SAVED MODELS (done once, then remembered by Streamlit)
-# ======================================================================================
 @st.cache_resource
 def load_artifacts():
     """Load every model, scaler, encoder and feature file from construction_models/."""
@@ -4974,9 +4953,7 @@ WEATHER = ART["site_safety"]["spec"]["categories"]["weather_condition"]
 MATERIALS = ART["late_delivery"]["spec"]["categories"]["material"]
 
 
-# ======================================================================================
 # 3. SHARED HELPER FUNCTIONS
-# ======================================================================================
 def is_rainy(country, month):
     """1 if the month is in the country's rainy season, else 0."""
     return int(month in RAINY_MONTHS.get(country, []))
@@ -5061,9 +5038,7 @@ def vendor_inputs(prefix, with_prequalified=True, with_reliability=True):
     return out
 
 
-# ======================================================================================
 # 4. PAGE: HOME
-# ======================================================================================
 def page_home():
     st.title("Construction Business Operations Predictive Support System")
     st.write("Five models that help managers decide where to look first: cost, schedule, safety, "
@@ -5096,9 +5071,7 @@ def page_home():
     st.write("- The models learned from 80 projects. Treat results for very unusual projects with caution.")
 
 
-# ======================================================================================
 # 5. PAGE 1: COST OVERRUNS
-# ======================================================================================
 def page_cost_overrun():
     st.header("1. Cost overruns")
     st.write("Will this cost line overrun its budget by more than 15%?")
@@ -5137,9 +5110,7 @@ def page_cost_overrun():
             "Low": "Normal monitoring is enough."})
 
 
-# ======================================================================================
-# 6. PAGE 2: SCHEDULE DELAYS
-# ======================================================================================
+=# 6. PAGE 2: SCHEDULE DELAYS
 def page_schedule_delay():
     st.header("2. Schedule delays")
     st.write("Will this task finish more than 5 days late?")
@@ -5182,9 +5153,7 @@ def page_schedule_delay():
             "Low": "Normal planning is enough."})
 
 
-# ======================================================================================
 # 7. PAGE 3: SITE SAFETY
-# ======================================================================================
 def page_site_safety():
     st.header("3. Site safety")
     st.write("If an incident happens under these conditions, how likely is it to be serious "
@@ -5223,9 +5192,7 @@ def page_site_safety():
             "Low": "Keep to normal safety routines."})
 
 
-# ======================================================================================
 # 8. PAGE 4: MATERIAL DELIVERY
-# ======================================================================================
 def page_late_delivery():
     st.header("4. Material delivery")
     st.write("Will this material order arrive after its promised date? "
@@ -5274,9 +5241,7 @@ def page_late_delivery():
             "Low": "Normal order follow-up is enough."})
 
 
-# ======================================================================================
 # 9. PAGE 5: PRICE ANOMALIES
-# ======================================================================================
 def price_features(frame):
     """material, country, unit_price_usd, quantity -> the four inputs the Isolation Forest uses."""
     reference = ART["price_anomalies"]["reference"]
@@ -5351,9 +5316,7 @@ def page_price_anomalies():
             st.download_button("Download results", scored.to_csv(index=False), file_name="scored_orders.csv", mime="text/csv")
 
 
-# ======================================================================================
 # 10. SIDEBAR MENU AND PAGE ROUTER
-# ======================================================================================
 st.sidebar.title("Construction Predictive Support System")
 choice = st.sidebar.radio("Choose a model", PAGES)
 st.sidebar.caption("A decision-support tool. Scores help you decide where to look first. "
