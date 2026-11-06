@@ -4911,8 +4911,10 @@ RAINY_MONTHS = {"Nigeria": [6, 7, 8, 9], "India": [6, 7, 8, 9],
 
 PRICE_TOLERANCE = 1.15      # up to 15% above the material norm counts as normal price variation
 
-
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 2. LOAD THE SAVED MODELS (done once, then remembered by Streamlit)
+# ==========================================================================
+
 @st.cache_resource
 def load_artifacts():
     """Load every model, scaler, encoder and feature file from construction_models/."""
@@ -4952,8 +4954,10 @@ SHIFTS = ART["site_safety"]["spec"]["categories"]["shift"]
 WEATHER = ART["site_safety"]["spec"]["categories"]["weather_condition"]
 MATERIALS = ART["late_delivery"]["spec"]["categories"]["material"]
 
-
+# ============================================
 # 3. SHARED HELPER FUNCTIONS
+# ============================================
+
 def is_rainy(country, month):
     """1 if the month is in the country's rainy season, else 0."""
     return int(month in RAINY_MONTHS.get(country, []))
@@ -5037,8 +5041,10 @@ def vendor_inputs(prefix, with_prequalified=True, with_reliability=True):
             out["is_prequalified"] = int(st.checkbox("Vendor is prequalified", value=True, key=prefix + "_pre"))
     return out
 
-
+# ====================================
 # 4. PAGE: HOME
+# ====================================
+
 def page_home():
     st.title("Construction Business Operations Predictive Support System")
     st.write("Five models that help managers decide where to look first: cost, schedule, safety, "
@@ -5070,8 +5076,10 @@ def page_home():
     st.write("- The rainy-season calendar and the 15% price tolerance are assumptions made when the models were built.")
     st.write("- The models learned from 80 projects. Treat results for very unusual projects with caution.")
 
-
+# ======================================
 # 5. PAGE 1: COST OVERRUNS
+# ======================================
+
 def page_cost_overrun():
     st.header("1. Cost overruns")
     st.write("Will this cost line overrun its budget by more than 15%?")
@@ -5109,8 +5117,9 @@ def page_cost_overrun():
             "Medium": "Keep an eye on it and check the next cost report.",
             "Low": "Normal monitoring is enough."})
 
-
+# ========================================
 =# 6. PAGE 2: SCHEDULE DELAYS
+# ========================================
 def page_schedule_delay():
     st.header("2. Schedule delays")
     st.write("Will this task finish more than 5 days late?")
@@ -5152,8 +5161,10 @@ def page_schedule_delay():
             "Medium": "Confirm crew availability and weather cover before the start.",
             "Low": "Normal planning is enough."})
 
-
+# ==========================================
 # 7. PAGE 3: SITE SAFETY
+# ==========================================
+
 def page_site_safety():
     st.header("3. Site safety")
     st.write("If an incident happens under these conditions, how likely is it to be serious "
@@ -5191,8 +5202,10 @@ def page_site_safety():
             "Medium": "Add a supervisor check and a toolbox talk before work continues.",
             "Low": "Keep to normal safety routines."})
 
-
+# ================================================
 # 8. PAGE 4: MATERIAL DELIVERY
+# ================================================
+
 def page_late_delivery():
     st.header("4. Material delivery")
     st.write("Will this material order arrive after its promised date? "
@@ -5240,8 +5253,10 @@ def page_late_delivery():
             "Medium": "Ask the supplier to confirm the date a week before it is due.",
             "Low": "Normal order follow-up is enough."})
 
-
+# =================================================
 # 9. PAGE 5: PRICE ANOMALIES
+# =================================================
+
 def price_features(frame):
     """material, country, unit_price_usd, quantity -> the four inputs the Isolation Forest uses."""
     reference = ART["price_anomalies"]["reference"]
@@ -5315,8 +5330,10 @@ def page_price_anomalies():
             st.dataframe(scored, hide_index=True, use_container_width=True)
             st.download_button("Download results", scored.to_csv(index=False), file_name="scored_orders.csv", mime="text/csv")
 
-
+# =========================================================
 # 10. SIDEBAR MENU AND PAGE ROUTER
+# =========================================================
+
 st.sidebar.title("Construction Predictive Support System")
 choice = st.sidebar.radio("Choose a model", PAGES)
 st.sidebar.caption("A decision-support tool. Scores help you decide where to look first. "
