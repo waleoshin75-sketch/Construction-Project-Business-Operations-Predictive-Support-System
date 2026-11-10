@@ -2,7 +2,12 @@
 
 **An Intelligent Multi-Model Engine for Financial, Timelines and Operational Risks Mitigation**
 
-**Python | pandas | scikit-learn | Streamlit** | Six messy tables turned into five working prediction models and a live web app
+<p align="left">
+<img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
+<img src="https://img.shields.io/badge/scikit--learn-1.9-F7931E?logo=scikitlearn&logoColor=white" alt="scikit-learn">
+<img src="https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit">
+<img src="https://img.shields.io/badge/Models-5-2E7D32" alt="Five models">
+</p>
 
 [Live Streamlit App](https://construction-project-business-operations-predictive-support-sy.streamlit.app/) | [GitHub Repository](https://github.com/waleoshin75-sketch/construction-project-business-operations-predictive-support-system)
 
