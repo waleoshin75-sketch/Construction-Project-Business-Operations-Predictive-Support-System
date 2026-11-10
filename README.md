@@ -48,7 +48,8 @@ The data is fictional and was built with realistic quality problems, so every st
 20. [Download Model, Scaler and Features](#20-download-model-scaler-and-features)
 21. [Key Findings and Insights](#21-key-findings-and-insights)
 22. [Recommendations](#22-recommendations)
-23. [Conclusion](#23-conclusion)
+23. [Impact](#23-impact)
+24. [Conclusion](#24-conclusion)
 
 ---
 ## 1. Project Overview
@@ -5408,7 +5409,69 @@ else:
 
 ---
 
-## 23. Conclusion
+## 23. Impact
+
+This section shows what the models are worth if they are used the way section 22 recommends. All figures come from the unseen test projects and are measured in the dollars and days recorded in the data. They are not forecasts of future savings.
+
+### What the models change
+
+If the team reviews only the riskiest slice of items, how much of the loss does it find? A random review would find only its own share.
+
+| # | Business problem | Review policy | Work created | Share of loss found | Random review finds |
+|---|---|---|---|---|---|
+| 1 | Cost overruns | Review the riskiest cost lines | 40% of lines | **58%** of overrun dollars ($35.2M of $60.8M) | 40% |
+| 2 | Schedule delays | Add buffer and crew to the riskiest tasks | 40% of tasks | **63%** of delay days | 40% |
+| 3 | Site safety | Supervise the riskiest incident conditions | 40% of incidents | **83%** of lost worker days | 40% |
+| 4 | Late material deliveries | Add buffer to the riskiest orders | 40% of orders | **50%** of late days | 40% |
+| 5 | Price anomalies | Review the highest-scoring orders for price | 5% of orders | **88%** of money paid beyond tolerance ($5.34M of $6.10M) | 5% |
+
+In plain terms: reviewing 40% of the work finds 1.5 to 2 times what a random review would find on objectives 1 to 3, and reviewing just 5% of orders finds almost nine tenths of the overpayment.
+
+### Where the loss is concentrated
+
+| Area | Share of items | Share of loss |
+|---|---|---|
+| Materials cost lines | 20% of lines | 41% of overrun dollars |
+| Rainy-season tasks | 13% of tasks | 24% of delay days |
+| Small crews (18 or fewer) | 28% of tasks | 39% of delay days |
+| Height work without PPE | 6% of incidents | 22% of lost worker days (3.5 times the average) |
+| Falls from height | 20% of incidents | 45% of lost worker days |
+| Glass Panels orders | 25% of orders | 30% of late days |
+
+### What could be avoided
+
+If the riskiest groups behaved like the rest, the upper limit of what could be avoided in the test data is:
+
+| What-if scenario | Loss avoided (upper bound) |
+|---|---|
+| Cost Plus lines overran as rarely as the rest | up to **$22.7M** of overrun |
+| Crews of 18 or fewer slipped as rarely as the rest | up to **2,279** task days |
+| Height work without PPE was as safe as the rest | up to **1,023** worker days |
+| International orders arrived as reliably as local ones | up to **2,625** delay days |
+
+These are **upper bounds**, not promises. The data shows a link between these conditions and the losses. It cannot prove that changing the condition removes the loss.
+
+### Impact by team
+
+| Team | What changes | Where it helps most |
+|---|---|---|
+| Finance and commercial | Check invoices against the material norm before payment (a one-line rule: price above 2 times the norm), then review the model's top 5% | 88% of money paid beyond tolerance sits in that 5% |
+| Project controls | Weekly review of the largest budget lines, plus model flags on risky smaller lines | The largest 40% of budgets hold 76% of overrun dollars, and the model finds risky small lines the size rule misses |
+| Planning | Rainy-season buffers and a minimum crew size on critical tasks | Rainy season roughly doubles delay risk (75% against 36%). Small crews are delayed 60% of the time against 34% |
+| Health and safety | PPE sign-off for every task at height, more supervision on night shifts, new workers paired with experienced ones | Serious incidents: 59% for height work without PPE against 23% otherwise, and 38% on nights against 21% on days |
+| Procurement | Lead-time buffers on international orders, and local or pre-qualified suppliers for critical materials | International orders are late 48% of the time against 29% for local ones |
+
+### What to keep in mind
+
+- **Late delivery is the weak spot.** The model reaches only ROC AUC 0.60, and the riskiest 40% of orders hold 50% of late days. Do not use it for decisions until better delivery data (carrier, port, supplier lead time) is collected.
+- **The models rank risk, they do not predict it exactly.** At the alert cut-offs, only about half to two thirds of flagged cases are real problems. Use the scores to decide where to look first.
+- **The test sets are small.** Each holds 16 unseen projects, so single numbers can move. The rankings are more reliable than the exact scores.
+- **A simple rule matched the price model.** The one-line price rule found all 62 anomalies, so start with it and keep the model as a second check.
+- **Impact has to be measured.** Pilot each policy next to current practice, record the effort and the loss avoided, and only then put a dollar value on the benefit.
+
+---
+
+## 24. Conclusion
 
 I built five models for five construction problems, compared three algorithms plus a baseline for each classification objective, chose the winners on training evidence and confirmed them on projects the models had never seen. Logistic Regression solved cost overruns, schedule delays, serious safety incidents and late deliveries, and an Isolation Forest handled price anomalies. All five are saved with their scalers, encoders and feature definitions, reload and reproduce the notebook's results, and run in a Streamlit app that scores one case at a time, or a whole file of orders.
 
